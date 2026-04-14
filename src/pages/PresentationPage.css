@@ -43,7 +43,7 @@
 .pres-root {
   position: fixed;
   inset: 0;
-  font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-family: 'Figtree', -apple-system, BlinkMacSystemFont, sans-serif;
   overflow: hidden;
   display: flex;
   flex-direction: column;
@@ -120,6 +120,37 @@
   to   { opacity: 1; transform: translateY(0); }
 }
 
+/* ── Thank You slide animations ── */
+@keyframes tySlideUp {
+  from { opacity: 0; transform: translateY(28px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes tyExpandLine {
+  from { transform: scaleX(0); opacity: 0; }
+  to   { transform: scaleX(1); opacity: 1; }
+}
+@keyframes tyPulse {
+  0%, 100% { transform: translate(-50%, -50%) scale(0.90); opacity: 0.18; }
+  50%       { transform: translate(-50%, -50%) scale(1.04); opacity: 0.08; }
+}
+.ty-reveal {
+  opacity: 0;
+  animation: tySlideUp 0.55s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+.ty-line {
+  animation: tyExpandLine 0.55s cubic-bezier(0.4, 0, 0.2, 1) both;
+  transform-origin: center;
+}
+.ty-ring {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  border-radius: 50%;
+  border: 1.5px solid var(--g-brand);
+  pointer-events: none;
+  animation: tyPulse 4s ease-in-out infinite;
+}
+
 /* ── Backgrounds ── */
 .pres-bg-dark {
   background: var(--g-navy);
@@ -153,6 +184,32 @@
   color: var(--g-text);
 }
 
+/* ── Sketch bg — light with dark dot grid (title/section slides) ── */
+.pres-bg-sketch {
+  background: #F7F8FC;
+  color: var(--g-text);
+}
+.pres-bg-sketch::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background:
+    radial-gradient(ellipse 80% 50% at 50% 0%, rgba(75,123,245,0.06) 0%, transparent 70%),
+    radial-gradient(ellipse 40% 40% at 90% 100%, rgba(75,123,245,0.04) 0%, transparent 60%);
+}
+.pres-bg-sketch::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background-image: radial-gradient(rgba(26,31,54,0.07) 1px, transparent 1px);
+  background-size: 28px 28px;
+}
+.pres-bg-sketch .pres-slide { position: relative; z-index: 1; }
+
 /* ── Nav hints ── */
 .pres-nav-hints {
   position: fixed;
@@ -184,6 +241,14 @@
 }
 .pres-nav-btn:disabled { opacity: 0.2; cursor: not-allowed; }
 
+/* Light-bg nav button variant */
+.pres-bg-light .pres-nav-btn,
+.pres-bg-sketch .pres-nav-btn {
+  background: rgba(255,255,255,0.85);
+  border-color: rgba(26,31,54,0.14);
+  color: var(--g-text);
+}
+
 /* ── Scrubber (bottom center) ── */
 .pres-dots {
   position: fixed;
@@ -206,10 +271,11 @@
   opacity: 0.45;
   z-index: 100;
   font-variant-numeric: tabular-nums;
-  font-family: 'DM Sans', sans-serif;
+  font-family: 'Figtree', sans-serif;
 }
-.pres-bg-dark  .pres-counter { color: white; }
-.pres-bg-light .pres-counter { color: var(--g-text); }
+.pres-bg-dark   .pres-counter { color: white; }
+.pres-bg-light  .pres-counter { color: var(--g-text); }
+.pres-bg-sketch .pres-counter { color: var(--g-text); }
 
 /* ── Content Wrapper ── */
 .pres-content-wrap {
@@ -338,7 +404,7 @@
   background: #edeef8;
   color: var(--g-muted);
   width: fit-content;
-  font-family: 'DM Sans', sans-serif;
+  font-family: 'Figtree', sans-serif;
 }
 .pres-tag.blue   { background: var(--g-brand-dim); color: var(--g-brand); }
 .pres-tag.purple { background: rgba(139,92,246,0.10); color: #8B5CF6; }
@@ -405,7 +471,7 @@
   font-weight: 800;
   line-height: 1.0;
   letter-spacing: -0.03em;
-  color: var(--g-white);
+  color: var(--g-text);
   margin: 0;
   position: relative;
   z-index: 1;
@@ -414,8 +480,9 @@
 /* ── Footer Text ── */
 .pres-footer-text {
   font-size: 16px;
-  color: rgba(255,255,255,0.5);
+  color: var(--g-muted);
   letter-spacing: 0.02em;
+  font-weight: 500;
 }
 
 /* ── Lists ── */

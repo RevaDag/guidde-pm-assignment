@@ -3,10 +3,10 @@ import { useNavigate } from 'react-router-dom';
 import './PresentationPage.css';
 
 const SLIDES = [
-  { type: 'title', theme: 'dark' },
+  { type: 'title', theme: 'sketch' },
   { type: 'scope', theme: 'light' },
   { type: 'steps', theme: 'light' },
-  { type: 'title-review', theme: 'dark' },
+  { type: 'title-review', theme: 'sketch' },
   // --- Onboarding Phase ---
   { type: 'onboarding1', theme: 'light' },
   { type: 'onboarding2', theme: 'light' },
@@ -21,23 +21,24 @@ const SLIDES = [
   { type: 'capture-result', theme: 'light' },
   { type: 'edit-needed', theme: 'light' },
   { type: 'editor-overwhelm', theme: 'light' },
-  { type: 'title-diagnose', theme: 'dark' },
+  { type: 'title-diagnose', theme: 'sketch' },
   { type: 'psych-graph', theme: 'light' },
   { type: 'problem', theme: 'light' },
   { type: 'activation', theme: 'light' },
   { type: 'assumptions', theme: 'light' },
-  { type: 'title-define', theme: 'dark' },
+  { type: 'title-define', theme: 'sketch' },
   { type: 'personas', theme: 'light' },
-  { type: 'persona-flow', theme: 'light' },
-  { type: 'title-plan', theme: 'dark' },
+  { type: 'title-plan', theme: 'sketch' },
   { type: 'solution-features', theme: 'light' },
-  { type: 'activation-logic', theme: 'light' },
+  { type: 'type-select', theme: 'light' },
   { type: 'capture-persona', theme: 'light' },
-  { type: 'title-prototype', theme: 'dark' },
+  { type: 'template-output', theme: 'light' },
+  { type: 'ai-editor', theme: 'light' },
+  { type: 'title-prototype', theme: 'sketch' },
+  { type: 'prioritization', theme: 'light' },
   { type: 'validation', theme: 'light' },
   { type: 'metrics', theme: 'light' },
-  { type: 'roadmap', theme: 'light' },
-  { type: 'risks', theme: 'dark' }
+  { type: 'thankyou', theme: 'sketch' },
 ];
 
 export default function PresentationPage() {
@@ -50,6 +51,7 @@ export default function PresentationPage() {
 
   useEffect(() => {
     const handler = (e) => {
+      if (e.repeat) return;
       if (e.key === 'ArrowRight' || e.key === 'ArrowDown') next();
       if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') prev();
     };
@@ -59,7 +61,9 @@ export default function PresentationPage() {
 
   const progress = (current / (total - 1)) * 100;
   const currentSlide = SLIDES[current];
-  const bgClass = currentSlide.theme === 'dark' ? 'pres-bg-dark' : 'pres-bg-light';
+  const bgClass = currentSlide.theme === 'sketch' ? 'pres-bg-sketch'
+                : currentSlide.theme === 'dark'   ? 'pres-bg-dark'
+                : 'pres-bg-light';
 
   return (
     <div className={`pres-root ${bgClass}`}>
@@ -81,7 +85,7 @@ export default function PresentationPage() {
           {currentSlide.type === 'steps' && <Slide3Steps />}
           {currentSlide.type === 'title-review' && <SectionTitle step="1" title="Review App" />}
           {currentSlide.type === 'onboarding1' && <OnboardingSlide num="1" title="Setup Workspace Name" description="The very first step after I register asks me to select and define my workspace name to personalize my environment. It feels welcoming." imagePath="/images/1.png" psychLevel={60} psychChange={+10} />}
-          {currentSlide.type === 'onboarding2' && <OnboardingSlide num="2" title="Company Details" description="I'm asked about my company size and role. It feels less like personalization and more like a lead-scoring form — the sales intent is a bit too visible." imagePath="/images/2.png" psychLevel={55} psychChange={-5} />}
+          {currentSlide.type === 'onboarding2' && <OnboardingSlide num="2" title="Company Details" description="I'm asked about my company size and role. It feels less like personalization and more like a lead-scoring form. The sales intent is a bit too visible." imagePath="/images/2.png" psychLevel={55} psychChange={-5} />}
           {currentSlide.type === 'onboarding3' && <OnboardingSlide num="3" title="User Intent" description="The wizard asks exactly what I want to do with Guidde. This is a crucial step that makes me feel understood regarding my primary goals." imagePath="/images/3.png" psychLevel={60} psychChange={+5} />}
           {currentSlide.type === 'onboarding4' && <OnboardingSlide num="4" title="Brand Kit" description="I'm introduced to the Brand Kit. It automatically scans my website to pull my brand colors and logos, completely removing the need for manual setup! This is mind-blowing." imagePath="/images/4.png" psychLevel={75} psychChange={+15} />}
           {currentSlide.type === 'friction1' && <Slide4Friction1 />}
@@ -101,16 +105,17 @@ export default function PresentationPage() {
           {currentSlide.type === 'assumptions' && <SlideAssumptions />}
           {currentSlide.type === 'title-define' && <SectionTitle step="3" title="Define Personas" />}
           {currentSlide.type === 'personas' && <Slide11Personas />}
-          {currentSlide.type === 'persona-flow' && <SlidePersonaFlow />}
           {currentSlide.type === 'title-plan' && <SectionTitle step="4" title="Plan Solution" />}
           {currentSlide.type === 'solution-features' && <SlideSolutionFeatures />}
-          {currentSlide.type === 'activation-logic' && <SlideActivationLogic />}
+          {currentSlide.type === 'type-select' && <SlideTypeSelect />}
           {currentSlide.type === 'capture-persona' && <SlideCapturePersona />}
+          {currentSlide.type === 'template-output' && <SlideTemplateOutput />}
+          {currentSlide.type === 'ai-editor' && <SlideAIEditor />}
           {currentSlide.type === 'title-prototype' && <SlideTitlePrototype />}
           {currentSlide.type === 'validation' && <SlideValidation />}
           {currentSlide.type === 'metrics' && <Slide15Metrics />}
-          {currentSlide.type === 'roadmap' && <Slide16Roadmap />}
-          {currentSlide.type === 'risks' && <Slide17Risks />}
+          {currentSlide.type === 'prioritization' && <SlidePrioritization />}
+          {currentSlide.type === 'thankyou' && <SlideThankYou />}
         </div>
       </div>
 
@@ -163,7 +168,7 @@ function Slide2Scope() {
     <div className="pres-content-wrap" style={{ gap: '32px' }}>
       <div>
         <h2 className="pres-title">Scope of Assignment</h2>
-        <p className="pres-subtitle" style={{ marginTop: '12px' }}>What I focused on — and what I deliberately left out</p>
+        <p className="pres-subtitle" style={{ marginTop: '12px' }}>What I focused on, and what I left out</p>
       </div>
 
       {/* 2×2 IN SCOPE grid */}
@@ -311,20 +316,22 @@ function FrictionLayout({ num, title, experience, description, recommendation, p
           Image Placeholder<br />{imagePath}
         </div>
 
-        <div className="pres-card" style={{ padding: '32px' }}>
-          <h3 className="pres-card-title" style={{ color: 'var(--pres-red)' }}>The Problem</h3>
-          {Array.isArray(description)
-            ? <ul style={{ marginTop: '16px', paddingLeft: '0', listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '12px' }}>
-                {description.map((item, i) => (
-                  <li key={i} style={{ display: 'flex', gap: '12px', alignItems: 'flex-start' }}>
-                    <span style={{ color: 'var(--pres-red)', fontWeight: 700, flexShrink: 0, marginTop: '2px' }}>—</span>
-                    <p className="pres-card-body" style={{ margin: 0 }}>{item}</p>
-                  </li>
-                ))}
-              </ul>
-            : <p className="pres-card-body" style={{ marginTop: '16px' }}>{description}</p>
-          }
-        </div>
+        {description && (
+          <div className="pres-card" style={{ padding: '32px' }}>
+            <h3 className="pres-card-title" style={{ color: 'var(--pres-red)' }}>The Problem</h3>
+            {Array.isArray(description)
+              ? <ul style={{ marginTop: '16px', paddingLeft: '0', listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                  {description.map((item, i) => (
+                    <li key={i} style={{ display: 'flex', gap: '12px', alignItems: 'flex-start' }}>
+                      <span style={{ color: 'var(--pres-red)', fontWeight: 700, flexShrink: 0, marginTop: '2px', fontSize: '8px' }}>●</span>
+                      <p className="pres-card-body" style={{ margin: 0 }}>{item}</p>
+                    </li>
+                  ))}
+                </ul>
+              : <p className="pres-card-body" style={{ marginTop: '16px' }}>{description}</p>
+            }
+          </div>
+        )}
       </div>
     </div>
   );
@@ -352,11 +359,11 @@ function OnboardingSlide({ num, title, description, imagePath, psychLevel, psych
 function Slide4Friction1() {
   return <FrictionLayout
     num="5"
-    title="Wizard stops too soon & popups appear"
-    experience="The onboarding guide just... stops. I'm dropped into an empty dashboard with no idea what to do next."
-    description="The guide suddenly stops and drops me into an empty dashboard with a popup. I go from knowing exactly what to do to feeling completely lost."
-    recommendation="The guide must not stop until the extension is fully installed and used once. The 'finish line' is creating my first Guidde, not just signing up."
-    principle="Keeps the user moving forward"
+    title="New dashboard, unfamiliar UI, install popup"
+    experience="The wizard ends and drops me into a dashboard I've never seen before. Before I can figure out where I am, a popup is already asking me to install the browser extension."
+    description="I've just finished onboarding but now I'm looking at a completely unfamiliar product UI. Before I can even orient myself, a modal blocks the screen asking me to download the browser extension. I haven't learned the dashboard yet, and I'm already being pushed to install something external."
+    recommendation="The guide should not stop until the extension is fully installed and used at least once. Walk the user through the whole install from inside the wizard. Don't drop them off halfway."
+    principle="Keep the user moving forward"
     imagePath="/images/5.png"
     psychLevel={65}
     psychChange={-10}
@@ -366,10 +373,9 @@ function Slide4Friction1() {
 function Slide5Friction2() {
   return <FrictionLayout
     num="6"
-    title="Popup appears out of nowhere"
-    experience="Right as I'm about to click the extension and finally start recording, a pricing popup blocks the screen out of nowhere."
-    description="Just as I'm about to click the extension button and actually start using Guidde, a pricing popup appears completely out of nowhere and blocks my flow."
-    recommendation="Never interrupt momentum. Hide pricing completely until I have successfully created and shared my very first Guidde."
+    title="A pricing popup kills the momentum"
+    experience="Right as I'm about to click the extension and start recording, a pricing popup blocks the screen."
+    recommendation="Hide pricing until the user has created and shared their first Guidde. Interrupting at this exact moment is the worst possible time."
     principle="Don't break the user's flow"
     imagePath="/images/6.png"
     psychLevel={55}
@@ -380,11 +386,10 @@ function Slide5Friction2() {
 function Slide6Friction3() {
   return <FrictionLayout
     num="7"
-    title="Chrome permission warning is scary"
-    experience="Chrome flashes a warning: this extension can 'read all data on websites you visit.' I pause — that sounds way scarier than I expected."
-    description="Chrome warns me that the extension can 'read all data'. This feels very scary. Guidde needs it to record screens, but I didn't know that."
-    recommendation="Add a message before the installation explaining: 'We need this permission just to record the screen.' This builds trust before Chrome asks."
-    principle="Build trust with users"
+    title="The Chrome permission warning is scary"
+    experience="Chrome warns me this extension can read all data on websites I visit. I pause. That sounds way scarier than I expected."
+    recommendation="Add a short note before installation saying: We need this permission to record your screen. That way Chrome's warning feels expected, not alarming."
+    principle="Build trust before Chrome asks"
     imagePath="/images/9.png"
     psychLevel={35}
     psychChange={-20}
@@ -398,21 +403,21 @@ function SlideFrictionContentType() {
       <div className="pres-content-wrap" style={{ gap: '24px', flex: 1 }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
           <div className="pres-num-circle" style={{ width: '56px', height: '56px', fontSize: '28px', flexShrink: 0 }}>8</div>
-          <h2 className="pres-title" style={{ fontSize: '40px' }}>"What are you creating?" — a blind commitment</h2>
+          <h2 className="pres-title" style={{ fontSize: '40px' }}>"What are you creating?" with no context to go on</h2>
         </div>
 
-        <p className="pres-card-body" style={{ fontSize: '20px', maxWidth: '800px', marginBottom: '8px' }}>The extension asks me to pick a content type before I record anything. I choose one — but I've never seen what any of these options actually produce.</p>
+        <p className="pres-card-body" style={{ fontSize: '20px', maxWidth: '800px', marginBottom: '8px' }}>The extension asks me to pick a content type before I record anything. I choose one, but I've never seen what any of these options actually produce.</p>
 
         <div style={{ display: 'flex', justifyContent: 'center' }}>
           <img src="/images/11.png" alt="What are you creating? extension popup" style={{ maxHeight: '28vh', width: 'auto', objectFit: 'contain', borderRadius: '10px', boxShadow: '0 4px 20px rgba(0,0,0,0.12)' }} onError={(e) => { e.target.style.display = 'none'; e.target.nextSibling.style.display = 'flex'; }} />
           <div style={{ display: 'none', flexDirection: 'column', color: '#6B7294', textAlign: 'center', fontSize: '20px', width: '100%', minHeight: '20vh', justifyContent: 'center' }}>
-            Image Placeholder — /images/11.png
+            Image not found: /images/11.png
           </div>
         </div>
 
         <div className="pres-card" style={{ padding: '32px' }}>
           <h3 className="pres-card-title" style={{ color: 'var(--pres-red)' }}>The Problem</h3>
-          <p className="pres-card-body" style={{ marginTop: '16px' }}>Five options, zero context. The user picks one without knowing what the output will look like — a training guide, a demo video, and an interactive tour are very different things. The choice feels arbitrary. When the result doesn't match their mental model, the aha moment turns into a miss and they leave.</p>
+          <p className="pres-card-body" style={{ marginTop: '16px' }}>Five options, zero context. The user picks one without knowing what they'll get. A training guide, a demo video, and an interactive tour look completely different. When the result doesn't match what they imagined, the aha moment turns into a miss and they leave.</p>
         </div>
       </div>
     </div>
@@ -423,12 +428,12 @@ function Slide7Friction4() {
   return <FrictionLayout
     num="9"
     title="Capture is a black box"
-    experience="I start clicking through my workflow. The extension shows a step counter — but I have no idea if my actions are actually being captured."
+    experience="I start clicking through my workflow. The extension shows a step counter, but I have no idea if my actions are actually being captured."
     description={[
-      "The extension shows nothing but a generic step counter. I have no idea if my clicks are being recorded correctly — one missed step means re-recording everything.",
-      "Empty clicks count as steps. If I click somewhere that does nothing, or double-click something by mistake, it's recorded as a real step — silently polluting my Guidde with junk I'll only discover after the fact.",
+      "The extension shows nothing but a step counter. I have no idea if my clicks are being recorded correctly. One missed step means starting over.",
+      "Empty clicks count as steps. If I click somewhere that does nothing, or double-click by mistake, it's recorded as a real step, quietly polluting my Guidde with junk I won't catch until later.",
     ]}
-    recommendation="Keep the recording bar visible at all times. Show a live step count next to the last captured action (3 words max). Tap to expand and review all captured steps. Immediate confirmation — zero screen clutter."
+    recommendation="Keep the recording bar visible at all times. Show a live step count next to the last captured action. Let users tap to expand and review all captured steps. Immediate confirmation with no screen clutter."
     principle="Give instant feedback"
     imagePath="/images/13.png"
     psychLevel={25}
@@ -450,8 +455,8 @@ function SlideCaptureResult() {
 function SlideEditNeeded() {
   return <OnboardingSlide
     num="11"
-    title="Wait — this isn't quite right"
-    description="The auto-generated Guidde looks impressive, but looking closer I can see some captions are off, a step is missing, and the tone isn't right for my audience. I'm going to need to edit this before I can share it."
+    title="Wait, this isn't quite right"
+    description="The auto-generated Guidde looks impressive. But looking closer, some captions are off, a step is missing, and the tone isn't right for my audience. I need to edit this before I can share it."
     imagePath="/images/14.png"
     psychLevel={65}
     psychChange={-10}
@@ -461,10 +466,10 @@ function SlideEditNeeded() {
 function SlideEditorOverwhelm() {
   return <FrictionLayout
     num="12"
-    title="Overwhelming Editor"
-    experience="I click Edit. The screen fills with panels, toolbars, and controls — I just wanted to fix one caption."
-    description="I want to make a simple edit, so I click the 'Edit' button. It sends me to an overwhelming editor with way too many options."
-    recommendation="Simplify the default editor interface. Focus on basic needs first, progressively revealing advanced options to reduce cognitive load."
+    title="The editor is overwhelming"
+    experience="I click Edit. The screen fills with panels, toolbars, and controls. I just wanted to fix one caption."
+    description="I want to make a simple edit, so I click Edit. It opens a full editor with way too many options at once."
+    recommendation="Hide advanced controls by default. Show users a short list of simple actions first and let them go deeper only when they need to."
     principle="Reduce cognitive load"
     imagePath="/images/editor.png"
     psychLevel={25}
@@ -504,7 +509,7 @@ function SlidePsychGraph() {
   return (
     <div className="pres-content-wrap centered" style={{ gap: '12px' }}>
       <h2 className="pres-title">User Psych Journey</h2>
-      <h3 className="pres-subtitle">Emotional arc across the 12 steps of the first-creation experience</h3>
+      <h3 className="pres-subtitle">How the user feels across the 12 steps of their first creation</h3>
 
       <svg viewBox={`0 0 ${W} ${H}`} style={{ width: '100%', marginTop: '8px' }}>
         {/* Drop-off zone shading */}
@@ -555,18 +560,18 @@ function Slide10Problem() {
       step: 8,
       color: '#F97316',
       label: 'Blind Choice',
-      title: 'The user commits to a format they\'ve never seen',
-      body: 'The extension asks "What are you creating?" before a single click is recorded — but shows no preview of what each option produces. The user picks one blind. When the result doesn\'t match their mental model, the aha moment becomes a miss.',
-      persona: '✨ Hits Marketing hardest — an interactive demo and a help article look nothing alike. Wrong choice = wrong output.',
+      title: 'The user picks a format they have never seen',
+      body: 'The extension asks "What are you creating?" before a single click is recorded, with no preview of what each option produces. The user picks blind. When the result doesn\'t match what they imagined, the aha moment becomes a miss.',
+      persona: '✨ Hits Marketing hardest. An interactive demo and a help article look nothing alike. Wrong choice, wrong output.',
       personaColor: '#D97706',
     },
     {
       step: 9,
       color: 'var(--pres-red)',
       label: 'Blind Capture',
-      title: 'No feedback during recording — errors stay hidden',
-      body: 'The capture bar shows only a step counter. Empty clicks and accidental double-clicks are silently recorded as real steps. The user has no way to review or remove them without scrapping the whole recording and starting over.',
-      persona: '🎯 Hits Sales hardest — a single junk step ruins a polished client demo. Re-recording is not an option when you have 30 clients to reach.',
+      title: 'No feedback during recording, errors stay hidden',
+      body: 'The capture bar shows only a step counter. Empty clicks and accidental double-clicks are recorded as real steps with no warning. The only fix is to scrap everything and start over.',
+      persona: '🎯 Hits Sales hardest. One junk step ruins a polished client demo, and re-recording isn\'t an option when you have 30 clients waiting.',
       personaColor: '#8B5CF6',
     },
     {
@@ -574,8 +579,8 @@ function Slide10Problem() {
       color: 'var(--pres-purple)',
       label: 'Editor Overwhelm',
       title: 'The editing interface is built for power users',
-      body: 'Opening the editor after the aha moment exposes every advanced control at once. A first-time user trying to fix one caption faces a blank canvas of options — no guided path, no clear finish line. Most don\'t make it through.',
-      persona: '💬 Hits Support hardest — they just want to fix one caption and publish. The wall of controls makes a 2-minute task feel like a 20-minute project.',
+      body: 'Opening the editor after the aha moment dumps every advanced control on screen at once. A first-time user trying to fix one caption faces a wall of options with no guided path. Most don\'t make it through.',
+      persona: '💬 Hits Support hardest. They just want to fix one caption and publish. The wall of controls turns a 2-minute task into a 20-minute project.',
       personaColor: '#4B7BF5',
     },
   ];
@@ -583,7 +588,7 @@ function Slide10Problem() {
   return (
     <div className="pres-content-wrap">
       <h2 className="pres-title">Three Drop-off Points</h2>
-      <h3 className="pres-subtitle">Where users leave — and why</h3>
+      <h3 className="pres-subtitle">Where users leave and why</h3>
 
       <div className="pres-cards-col" style={{ marginTop: '32px', gap: '16px' }}>
         {points.map(({ step, color, label, title, body, persona, personaColor }) => (
@@ -620,19 +625,8 @@ function SlideActivation() {
           <div className="pres-tag blue" style={{ marginBottom: '12px' }}>THE METRIC</div>
           <h3 className="pres-card-title" style={{ fontSize: '32px' }}>"Time to First Shared Guidde"</h3>
           <p className="pres-card-body" style={{ fontSize: '20px', marginTop: '16px' }}>
-            A user is only "Activated" when they have successfully <strong>recorded, edited, and shared or exported</strong> their first Guidde — the editor is the last mile that determines whether that happens.
+            A user is only activated when they have <strong>recorded, edited, and shared</strong> their first Guidde.
           </p>
-        </div>
-
-        <div className="pres-cards-row">
-          <div className="pres-card">
-            <h3 className="pres-card-title">Why not just "recorded"?</h3>
-            <p className="pres-card-body">The auto-generated Guidde is impressive but raw. Value is only delivered when it's polished and shared — which requires surviving the editor.</p>
-          </div>
-          <div className="pres-card">
-            <h3 className="pres-card-title">The editor is the bottleneck</h3>
-            <p className="pres-card-body">Capture is smooth and delightful. The drop-off happens immediately after, when users open the editor and face an interface designed for power users.</p>
-          </div>
         </div>
       </div>
     </div>
@@ -648,19 +642,19 @@ function SlideAssumptions() {
         <div className="pres-card">
           <div className="pres-card-accent-left" style={{ background: 'var(--pres-blue)' }} />
           <h3 className="pres-card-title">1. Most users only need simple edits</h3>
-          <p className="pres-card-body">We assume the majority of first-time users want to fix a caption, trim a step, or adjust a title — not composite layers or add custom animations. The editor should reflect that.</p>
+          <p className="pres-card-body">First-time users want to fix a caption, trim a step, or adjust a title. Not build composite layers or add animations. The editor should reflect that reality.</p>
         </div>
 
         <div className="pres-card">
           <div className="pres-card-accent-left" style={{ background: 'var(--pres-purple)' }} />
-          <h3 className="pres-card-title">2. Killing the aha moment is fatal</h3>
-          <p className="pres-card-body">We assume that hitting a wall immediately after the peak emotional moment (the auto-generated Guidde) causes a disproportionately high drop-off — higher than friction during setup.</p>
+          <h3 className="pres-card-title">2. Hitting a wall after the aha moment is fatal</h3>
+          <p className="pres-card-body">Hitting a wall right after the peak moment causes more drop-off than anything earlier in the flow. The timing makes it uniquely costly.</p>
         </div>
 
         <div className="pres-card">
           <div className="pres-card-accent-left" style={{ background: 'var(--pres-amber)' }} />
           <h3 className="pres-card-title">3. Good defaults beat full control</h3>
-          <p className="pres-card-body">We assume that for new users, a constrained editor with smart defaults produces better outcomes than an open editor with full creative freedom — fewer choices means faster completion.</p>
+          <p className="pres-card-body">For new users, a focused editor with smart defaults works better than an open editor with full creative freedom. Fewer choices means faster completion.</p>
         </div>
       </div>
     </div>
@@ -668,37 +662,117 @@ function SlideAssumptions() {
 }
 
 function Slide11Personas() {
+  const personas = [
+    {
+      icon: '💬',
+      name: 'Support',
+      color: '#4B7BF5',
+      colorDim: 'rgba(75,123,245,0.08)',
+      tagClass: 'blue',
+      tagLabel: 'Help Articles',
+      goal: 'Turn repeat tickets into self-serve guides — fast.',
+      pains: [
+        'Writing step-by-step instructions is slow',
+        'Text alone doesn\'t explain UI flows well',
+        'Guides go stale with no easy way to update',
+      ],
+    },
+    {
+      icon: '🎯',
+      name: 'Sales',
+      color: '#8B5CF6',
+      colorDim: 'rgba(139,92,246,0.08)',
+      tagClass: 'purple',
+      tagLabel: 'Demo Videos',
+      goal: 'Send every prospect a polished walkthrough without spending hours on it.',
+      pains: [
+        'Live demos fall apart when anything goes wrong',
+        'Generic recordings feel impersonal to prospects',
+        'High-quality video needs skills the team lacks',
+      ],
+    },
+    {
+      icon: '✨',
+      name: 'Marketing',
+      color: '#D97706',
+      colorDim: 'rgba(245,158,11,0.08)',
+      tagClass: 'amber',
+      tagLabel: 'Interactive Demos',
+      goal: 'Let visitors experience the product before signing up — no engineering needed.',
+      pains: [
+        'Screenshots don\'t convey what the product does',
+        'Interactive demos always need developer time',
+        'Outdated content stays live after UI changes',
+      ],
+    },
+  ];
+
   return (
-    <div className="pres-content-wrap">
+    <div className="pres-content-wrap" style={{ gap: '24px' }}>
       <h2 className="pres-title">Who Are We Building For?</h2>
 
-      <div className="pres-cards-row">
-        <div className="pres-card">
-          <div className="pres-card-accent-top" style={{ background: 'var(--pres-blue)' }} />
-          <h3 className="pres-card-title">💬 Support Team</h3>
-          <p className="pres-card-body" style={{ fontWeight: 600 }}>Goal: "Help my users solve problems fast"</p>
-          <p className="pres-card-body"><strong>Pain:</strong> "I waste 20 minutes writing text when a 2-minute video would be better."</p>
-          <p className="pres-card-body"><strong>Using Now:</strong> "Screenshots + manual writing"</p>
-          <div className="pres-tag blue" style={{ marginTop: '16px' }}>Needs text articles</div>
-        </div>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '16px', width: '100%' }}>
+        {personas.map(({ icon, name, color, colorDim, tagClass, tagLabel, goal, pains }) => (
+          <div
+            key={name}
+            style={{
+              background: '#fff',
+              borderRadius: '18px',
+              border: '1.5px solid var(--g-border)',
+              boxShadow: '0 2px 16px rgba(26,31,54,0.07)',
+              overflow: 'hidden',
+              display: 'flex',
+              flexDirection: 'column',
+            }}
+          >
+            {/* Card header */}
+            <div style={{
+              borderTop: `4px solid ${color}`,
+              background: colorDim,
+              padding: '20px 22px 16px',
+              display: 'flex', flexDirection: 'column', gap: '8px',
+            }}>
+              <span style={{ fontSize: '28px', lineHeight: 1 }}>{icon}</span>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '10px', flexWrap: 'wrap' }}>
+                <span style={{
+                  fontFamily: "'Bricolage Grotesque', sans-serif",
+                  fontWeight: 700, fontSize: '18px',
+                  color: 'var(--g-text)', lineHeight: 1,
+                }}>{name}</span>
+                <span className={`pres-tag ${tagClass}`} style={{ fontSize: '10px', padding: '3px 10px' }}>{tagLabel}</span>
+              </div>
+            </div>
 
-        <div className="pres-card">
-          <div className="pres-card-accent-top" style={{ background: 'var(--pres-purple)' }} />
-          <h3 className="pres-card-title">🎯 Sales Team</h3>
-          <p className="pres-card-body" style={{ fontWeight: 600 }}>Goal: "Show my clients the product looks great"</p>
-          <p className="pres-card-body"><strong>Pain:</strong> "Live demos are messy. I want perfect videos to send to 30 clients a week."</p>
-          <p className="pres-card-body"><strong>Using Now:</strong> "Loom videos + emails"</p>
-          <div className="pres-tag purple" style={{ marginTop: '16px' }}>Needs demo videos</div>
-        </div>
+            {/* Goal */}
+            <div style={{ padding: '16px 22px', borderBottom: '1px solid var(--g-border)' }}>
+              <p style={{
+                fontSize: '11px', fontWeight: 700, letterSpacing: '0.08em',
+                textTransform: 'uppercase', color: 'var(--g-muted)', margin: '0 0 6px',
+              }}>Goal</p>
+              <p style={{
+                fontSize: '14px', lineHeight: 1.6,
+                color: 'var(--g-text)', margin: 0, fontWeight: 500,
+              }}>{goal}</p>
+            </div>
 
-        <div className="pres-card">
-          <div className="pres-card-accent-top" style={{ background: 'var(--pres-amber)' }} />
-          <h3 className="pres-card-title">✨ Marketing</h3>
-          <p className="pres-card-body" style={{ fontWeight: 600 }}>Goal: "Let visitors try the product easily"</p>
-          <p className="pres-card-body"><strong>Pain:</strong> "Developers don't have time to build interactive demos for the website."</p>
-          <p className="pres-card-body"><strong>Using Now:</strong> "GIFs or other tools"</p>
-          <div className="pres-tag amber" style={{ marginTop: '16px' }}>Needs interactives</div>
-        </div>
+            {/* Pain points */}
+            <div style={{ padding: '16px 22px', display: 'flex', flexDirection: 'column', gap: '10px' }}>
+              <p style={{
+                fontSize: '11px', fontWeight: 700, letterSpacing: '0.08em',
+                textTransform: 'uppercase', color: 'var(--g-muted)', margin: 0,
+              }}>Pain Points</p>
+              {pains.map((pain, i) => (
+                <div key={i} style={{ display: 'flex', gap: '10px', alignItems: 'flex-start' }}>
+                  <span style={{
+                    color, fontWeight: 800, flexShrink: 0,
+                    fontSize: '13px', marginTop: '1px', lineHeight: 1.4,
+                  }}>✕</span>
+                  <p style={{ fontSize: '13px', lineHeight: 1.55, color: 'var(--g-muted)', margin: 0 }}>{pain}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        ))}
       </div>
     </div>
   );
@@ -784,142 +858,17 @@ function Slide13Solution() {
   );
 }
 
-function SlidePersonaFlow() {
-  const cols = [
-    {
-      icon: '💬', name: 'Support', color: 'var(--pres-blue)', colorHex: '#4B7BF5',
-      selects: 'Help Article',
-      gets: 'Steps auto-transcribed into a clean annotated text guide — structured, searchable, ready to publish.',
-      detail: ['Auto-transcribed step text', 'Annotated screenshot per step', 'Numbered callout overlays'],
-    },
-    {
-      icon: '🎯', name: 'Sales', color: 'var(--pres-purple)', colorHex: '#8B5CF6',
-      selects: 'Demo Video',
-      gets: 'Branded, narrated screen recording — logo and colours applied automatically, shareable in one click.',
-      detail: ['Brand kit auto-applied', 'Narration layer', 'Shareable video link'],
-    },
-    {
-      icon: '✨', name: 'Marketing', color: 'var(--pres-amber)', colorHex: '#D97706',
-      selects: 'Interactive Demo',
-      gets: 'Embeddable click-through demo — visitors explore at their own pace with zero developer effort.',
-      detail: ['Click hotspot overlay', 'Embed code generated', 'No dev work required'],
-    },
-  ];
-
-  const rows = [
-    { label: 'Editor default', support: 'Step text + captions front & center', sales: 'Video timeline + brand kit panel', marketing: 'Article layout + SEO hints' },
-    { label: 'AI chat chips',  support: 'Clean up captions · Add a callout · Simplify language · Number the steps', sales: 'Add company logo · Apply brand colors · Trim dead air · Add narration', marketing: 'Add a hotspot · Make interactive · Add a tooltip · Prepare for embed' },
-    { label: 'Export format',  support: 'Help Center article', sales: 'Shareable video link', marketing: 'Embeddable interactive tour' },
-  ];
-
-  const rowValues = (row) => [row.support, row.sales, row.marketing];
-
-  return (
-    <div className="pres-content-wrap" style={{ gap: '24px' }}>
-      <div>
-        <h2 className="pres-title">The Right Output — How the Experience Adapts</h2>
-        <p className="pres-subtitle" style={{ marginTop: '12px' }}>One tool — three distinct outputs, each with a purpose-built editor</p>
-      </div>
-
-      {/* Column headers with output description */}
-      <div style={{ display: 'grid', gridTemplateColumns: '140px 1fr 1fr 1fr', gap: '14px', alignItems: 'stretch' }}>
-        <div />
-        {cols.map(({ icon, name, color, colorHex, selects, gets, detail }) => (
-          <div key={name} style={{ padding: '16px 18px', background: 'var(--pres-bg-light)', borderRadius: '14px', border: `1.5px solid ${colorHex}22`, display: 'flex', flexDirection: 'column', gap: '8px' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-              <span style={{ fontSize: '20px' }}>{icon}</span>
-              <span style={{ fontFamily: "'Bricolage Grotesque',sans-serif", fontWeight: 700, fontSize: '17px', color: 'var(--pres-text-dark)' }}>{name}</span>
-              <span style={{ marginLeft: 'auto', fontSize: '11px', fontWeight: 700, color, background: `${colorHex}14`, borderRadius: '99px', padding: '2px 8px', whiteSpace: 'nowrap' }}>{selects}</span>
-            </div>
-            <p style={{ fontSize: '13px', color: 'var(--pres-text-muted)', lineHeight: 1.45, margin: 0 }}>{gets}</p>
-            <div style={{ borderTop: `1px solid ${colorHex}18`, paddingTop: '8px', display: 'flex', flexDirection: 'column', gap: '4px' }}>
-              {detail.map(d => (
-                <div key={d} style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '12px', color: 'var(--pres-text-muted)' }}>
-                  <div style={{ width: '5px', height: '5px', borderRadius: '50%', background: color, flexShrink: 0 }} />
-                  {d}
-                </div>
-              ))}
-            </div>
-          </div>
-        ))}
-      </div>
-
-      {/* Rows */}
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-        {rows.map((row) => (
-          <div key={row.label} style={{ display: 'grid', gridTemplateColumns: '140px 1fr 1fr 1fr', gap: '14px', alignItems: 'stretch' }}>
-            <div style={{ display: 'flex', alignItems: 'center', padding: '0 8px', fontSize: '12px', fontWeight: 700, color: 'var(--pres-text-muted)', textTransform: 'uppercase', letterSpacing: '0.06em' }}>{row.label}</div>
-            {rowValues(row).map((text, i) => (
-              <div key={i} style={{ padding: '14px 18px', background: 'white', borderRadius: '12px', border: `1.5px solid ${['#4B7BF5','#8B5CF6','#D97706'][i]}18`, fontSize: '14px', color: 'var(--pres-text-dark)', lineHeight: 1.4 }}>
-                {text}
-              </div>
-            ))}
-          </div>
-        ))}
-      </div>
-    </div>
-  );
-}
-
-function SlideActivationLogic() {
-  const chain = [
-    { label: 'The drop-off point', text: 'Editor Overwhelm', color: 'var(--pres-red)', icon: '⚠️' },
-    { label: 'Removed by', text: 'Persona-Aware Editor', color: 'var(--pres-blue)', icon: '🎯', arrow: true },
-    { label: 'Which enables', text: 'User Completes First Guidde', color: 'var(--pres-green)', icon: '✅', arrow: true },
-    { label: 'Which leads to', text: 'First Shared Guidde ≤ 7 days', color: 'var(--pres-green)', icon: '🚀', arrow: true },
-  ];
-
-  return (
-    <div className="pres-content-wrap" style={{ gap: '36px' }}>
-      <div>
-        <h2 className="pres-title">Why This Increases Activation</h2>
-        <p className="pres-subtitle" style={{ marginTop: '12px' }}>Fixing the editor is the highest-leverage intervention — it sits right after the aha moment</p>
-      </div>
-
-      {/* Causal chain */}
-      <div style={{ display: 'flex', alignItems: 'stretch', gap: '0', width: '100%' }}>
-        {chain.map(({ label, text, color, icon, arrow }, i) => (
-          <div key={i} style={{ display: 'flex', alignItems: 'center', flex: 1 }}>
-            <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '10px', padding: '28px 16px', background: 'white', borderRadius: '16px', border: `2px solid ${color}33`, boxShadow: '0 2px 12px rgba(26,31,54,0.07)', textAlign: 'center' }}>
-              <span style={{ fontSize: '28px' }}>{icon}</span>
-              <span style={{ fontSize: '11px', fontWeight: 700, letterSpacing: '0.07em', textTransform: 'uppercase', color: 'var(--pres-text-muted)' }}>{label}</span>
-              <span style={{ fontFamily: "'Bricolage Grotesque',sans-serif", fontWeight: 700, fontSize: '16px', color, lineHeight: 1.3 }}>{text}</span>
-            </div>
-            {arrow && <div style={{ fontSize: '24px', color: 'var(--pres-text-muted)', padding: '0 8px', flexShrink: 0 }}>→</div>}
-          </div>
-        ))}
-      </div>
-
-      {/* Why the editor is the right lever */}
-      <div className="pres-cards-row" style={{ gap: '16px' }}>
-        <div className="pres-card" style={{ borderLeft: '5px solid var(--pres-red)', padding: '24px 28px', gap: '10px' }}>
-          <h3 className="pres-card-title" style={{ fontSize: '18px' }}>Highest drop-off point</h3>
-          <p className="pres-card-body" style={{ fontSize: '16px' }}>The editor is where psych crashes from 75 → 25. No other step produces a drop this severe.</p>
-        </div>
-        <div className="pres-card" style={{ borderLeft: '5px solid var(--pres-amber)', padding: '24px 28px', gap: '10px' }}>
-          <h3 className="pres-card-title" style={{ fontSize: '18px' }}>Post-aha-moment timing</h3>
-          <p className="pres-card-body" style={{ fontSize: '16px' }}>Users are at peak excitement when they see their Guidde. Killing that with complexity is uniquely costly.</p>
-        </div>
-        <div className="pres-card" style={{ borderLeft: '5px solid var(--pres-green)', padding: '24px 28px', gap: '10px' }}>
-          <h3 className="pres-card-title" style={{ fontSize: '18px' }}>Target: 15% → 30%</h3>
-          <p className="pres-card-body" style={{ fontSize: '16px' }}>Doubling the 7-day activation rate is achievable when the only wall between the aha moment and sharing is removed.</p>
-        </div>
-      </div>
-    </div>
-  );
-}
-
 function Slide14Features() {
   const features = [
     {
       icon: '🎯', title: 'Extend the Existing Capture Question',
-      body: 'Guidde already asks "what do you want to capture?" before recording. Adding one output-type question to that screen — Help Article, Demo Video, or Interactive Demo — sets the context for everything that follows. No new screen. No added steps.',
+      body: 'Guidde already asks "what do you want to capture?" before recording. Adding one output-type question to that same screen sets the context for everything that follows. No new screen, no extra steps.',
       friction: 'Removes: Editor overwhelm — output is decided before recording, not after',
       accentColor: 'var(--pres-blue)',
     },
     {
       icon: '💬', title: 'AI Chat Editor',
-      body: 'The advanced toolbar is hidden by default. Users edit through a chat panel — type what you want changed, the AI does it. It already knows your persona, so "make this cleaner" produces the right result for a help article vs. a client demo. Auto-approve applies changes instantly; manual-approve shows a diff first.',
+      body: 'The advanced toolbar is hidden by default. Users type what they want changed and the AI does it. Because it already knows the content type, "make this cleaner" means something different for a help article than it does for a client demo. Changes apply instantly, with undo always available.',
       friction: 'Removes: Blank canvas paralysis — no decisions, just intent → result',
       accentColor: 'var(--pres-purple)',
     },
@@ -970,23 +919,23 @@ function SlideSolutionFeatures() {
       num: '01',
       icon: '🎯',
       title: 'Guidde Type + Template Selection',
-      body: 'Before recording starts, the user picks their Guidde type and browses a set of templates — seeing exactly what the output will look like. The commitment is informed, not blind.',
-      fixes: ['Blind content-type choice (step 8)', 'Mismatched output expectations'],
+      body: 'Before recording starts, the user picks their Guidde type and browses templates so they can see exactly what the output will look like. No more guessing.',
+      fixes: ['Choosing without context (step 8)', 'Mismatched output expectations'],
       color: 'var(--pres-blue)',
     },
     {
       num: '02',
       icon: '📋',
       title: 'Smart Capture Bar',
-      body: 'The extension bar shows a label for every step captured in real time. Duplicate clicks and empty interactions are flagged instantly — the user can remove them on the spot without restarting the recording.',
-      fixes: ['Blind capture — no feedback (step 9)', 'Empty & duplicate clicks polluting the Guidde'],
+      body: 'The extension bar shows a label for every step in real time. Duplicate clicks and empty interactions are flagged right away so the user can remove them without restarting.',
+      fixes: ['No feedback during recording (step 9)', 'Empty and duplicate clicks polluting the Guidde'],
       color: 'var(--pres-purple)',
     },
     {
       num: '03',
       icon: '📄',
       title: 'Template-Driven Output',
-      body: 'The auto-generated Guidde is rendered inside the template the user selected before recording. The result matches what they saw when they chose it — no gap between expectation and delivery.',
+      body: 'The auto-generated Guidde is rendered inside the template the user picked before recording. What they see is what they chose, so there is no gap between expectation and delivery.',
       fixes: ['Aha moment turning into a miss (step 10–11)'],
       color: 'var(--pres-green)',
     },
@@ -994,8 +943,8 @@ function SlideSolutionFeatures() {
       num: '04',
       icon: '💬',
       title: 'AI Editor with Contextual Suggestions',
-      body: 'The editor surfaces a short list of suggested actions tailored to the Guidde type — "clean up captions", "add a callout", "trim to 3 steps". The advanced toolbar stays hidden until the user asks for it.',
-      fixes: ['Editor overwhelm — blank canvas paralysis (step 12)'],
+      body: 'The editor shows a short list of suggested actions tailored to the Guidde type: "clean up captions", "add a callout", "trim to 3 steps". The full toolbar stays hidden until the user asks for it.',
+      fixes: ['Editor overwhelm and blank canvas paralysis (step 12)'],
       color: 'var(--pres-amber)',
     },
   ];
@@ -1003,28 +952,20 @@ function SlideSolutionFeatures() {
   return (
     <div className="pres-content-wrap" style={{ gap: '28px' }}>
       <div>
-        <h2 className="pres-title">The Solution — 4 Features</h2>
-        <p className="pres-subtitle" style={{ marginTop: '12px' }}>Each one directly removes a friction point identified in the review</p>
+        <h2 className="pres-title">The Solution: 4 Features</h2>
+        <p className="pres-subtitle" style={{ marginTop: '12px' }}>Each feature traces back to a specific drop-off point found in the review</p>
       </div>
 
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
-        {features.map(({ num, icon, title, body, fixes, color }) => (
-          <div key={num} className="pres-card" style={{ padding: '28px 32px', gap: '14px' }}>
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }}>
+        {features.map(({ num, icon, title, body, color }) => (
+          <div key={num} className="pres-card" style={{ padding: '36px 40px', gap: '18px' }}>
             <div className="pres-card-accent-top" style={{ background: color }} />
             <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
-              <span style={{ fontSize: '11px', fontWeight: 800, color, letterSpacing: '0.08em' }}>{num}</span>
-              <span style={{ fontSize: '22px' }}>{icon}</span>
-              <span style={{ fontFamily: "'Bricolage Grotesque',sans-serif", fontWeight: 700, fontSize: 'clamp(16px,1.6vw,20px)', color: 'var(--pres-text-dark)', lineHeight: 1.2 }}>{title}</span>
+              <span style={{ fontSize: '12px', fontWeight: 800, color, letterSpacing: '0.08em' }}>{num}</span>
+              <span style={{ fontSize: '26px' }}>{icon}</span>
+              <span style={{ fontFamily: "'Bricolage Grotesque',sans-serif", fontWeight: 700, fontSize: 'clamp(18px,1.8vw,23px)', color: 'var(--pres-text-dark)', lineHeight: 1.2 }}>{title}</span>
             </div>
-            <p className="pres-card-body" style={{ fontSize: '15px', lineHeight: 1.6 }}>{body}</p>
-            <div style={{ borderTop: '1px solid var(--pres-border)', paddingTop: '12px', display: 'flex', flexDirection: 'column', gap: '6px' }}>
-              {fixes.map(f => (
-                <div key={f} style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '13px', color: 'var(--pres-text-muted)' }}>
-                  <span style={{ color, fontWeight: 700, flexShrink: 0 }}>✕</span>
-                  <span>Removes: {f}</span>
-                </div>
-              ))}
-            </div>
+            <p className="pres-card-body" style={{ fontSize: '17px', lineHeight: 1.65 }}>{body}</p>
           </div>
         ))}
       </div>
@@ -1032,134 +973,361 @@ function SlideSolutionFeatures() {
   );
 }
 
-function SlideCapturePersona() {
-  const capturedSteps = [
-    { text: 'Opened Settings menu',     done: true  },
-    { text: 'Clicked Security tab',     done: true  },
-    { text: 'Scrolled to 2FA section',  done: true  },
-    { text: 'Toggled Enable 2FA',       done: false },
+// ── Feature 01: Guidde Type + Template Selection ─────────────────────────────
+
+function SlideTypeSelect() {
+  const contentTypes = [
+    { icon: '📖', label: 'How-To Tutorial',               color: '#4B7BF5', active: true  },
+    { icon: '🎓', label: 'Employee Training Guide',        color: '#8B5CF6', active: false },
+    { icon: '🎯', label: 'Product Demo',                   color: '#8B5CF6', active: false },
+    { icon: '📋', label: 'Standard Operations Procedure',  color: '#10B981', active: false },
+    { icon: '✨', label: 'Knowledge Base Article',         color: '#D97706', active: false },
   ];
 
-  const personas = [
-    {
-      icon: '💬', name: 'Support', color: '#4B7BF5',
-      steps: 3, lastStep: 'Clicked Security',
-      content: ['Settings', 'Security tab', 'Enable 2FA'],
-    },
-    {
-      icon: '🎯', name: 'Sales', color: '#8B5CF6',
-      steps: 2, lastStep: 'Opened Dashboard',
-      content: ['Analytics', 'Revenue chart'],
-    },
-    {
-      icon: '✨', name: 'Marketing', color: '#D97706',
-      steps: 4, lastStep: 'Clicked Sign Up',
-      content: ['Landing page', 'Sign up form', 'Email field'],
-    },
+  const templates = [
+    { name: 'Simple 5-Step',   desc: 'Clean sequential numbered format',         selected: true,  fav: true  },
+    { name: 'Detailed Guide',  desc: 'In-depth steps with callouts & tips',      selected: false, fav: false },
+    { name: 'FAQ Format',      desc: 'Q&A style with collapsible answers',       selected: false, fav: false },
   ];
+
+  const color = '#4B7BF5';
 
   return (
     <div className="pres-content-wrap" style={{ gap: '24px' }}>
       <div>
-        <h2 className="pres-title">Step Clarity During Recording</h2>
+        <h2 className="pres-title">Guidde Type + Template Selection</h2>
         <p className="pres-subtitle" style={{ marginTop: '8px' }}>
-          The Guidde bar stays visible the entire time you record — showing exactly how many steps have been captured and what the last one was.
+          Before recording starts, users pick what they're building and see what the output will look like. No guessing, no surprises when the editor opens.
         </p>
       </div>
 
-      {/* Before / After of the recording bar */}
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr auto 1fr', gap: '20px', alignItems: 'center' }}>
+      {/* Modal mockup */}
+      <div style={{ width: '100%', background: 'white', borderRadius: '14px', overflow: 'hidden', boxShadow: '0 8px 40px rgba(26,31,54,0.14)', border: '1px solid var(--g-border)' }}>
 
-        {/* BEFORE: plain counter, no context */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', alignItems: 'center' }}>
-          <div style={{ fontSize: '11px', fontWeight: 700, color: 'var(--pres-text-muted)', letterSpacing: '0.06em', textTransform: 'uppercase' }}>Before</div>
-          <div style={{ width: '100%', background: '#EBEDF0', borderRadius: '10px', padding: '28px 20px', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '14px', border: '1.5px solid #E5E7EB', position: 'relative' }}>
-            {/* Old bar */}
-            <div style={{ background: '#0D1022', borderRadius: '99px', display: 'flex', alignItems: 'center', gap: '8px', padding: '7px 16px 7px 10px', boxShadow: '0 2px 8px rgba(0,0,0,0.25)', border: '1px solid rgba(255,255,255,0.08)' }}>
-              <div style={{ width: '22px', height: '22px', borderRadius: '7px', background: '#E8322F', display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: 'Georgia,serif', fontSize: '12px', fontWeight: 900, color: 'white', fontStyle: 'italic' }}>g</div>
-              <div style={{ padding: '3px 12px', borderRadius: '99px', background: 'rgba(255,255,255,0.09)', fontSize: '12px', fontWeight: 600, color: 'rgba(255,255,255,0.7)' }}>5 Steps</div>
-              <div style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#EF4444', flexShrink: 0 }} />
+        {/* Modal header */}
+        <div style={{ padding: '14px 20px', borderBottom: '1px solid #E5E7EB', display: 'flex', alignItems: 'center', gap: '12px', background: 'white' }}>
+          <span style={{ fontSize: '16px', fontWeight: 900, color: '#0D1117', letterSpacing: '-0.3px' }}>guidde.</span>
+          <div style={{ width: '1px', height: '14px', background: '#E5E7EB' }} />
+          <span style={{ fontSize: '14px', fontWeight: 700, color: '#111827' }}>Create a Guidde</span>
+          <div style={{ marginLeft: 'auto', display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '6px', background: '#F3F4F6', border: '1.5px solid #E5E7EB', borderRadius: '8px', padding: '5px 10px', width: '180px' }}>
+              <svg width="12" height="12" viewBox="0 0 16 16" fill="none"><circle cx="7" cy="7" r="4.5" stroke="#9CA3AF" strokeWidth="1.6"/><path d="M10.5 10.5L13.5 13.5" stroke="#9CA3AF" strokeWidth="1.6" strokeLinecap="round"/></svg>
+              <span style={{ fontSize: '11px', color: '#9CA3AF' }}>Search templates…</span>
             </div>
-            <p style={{ fontSize: '13px', color: 'var(--pres-text-muted)', textAlign: 'center', lineHeight: 1.5, margin: 0 }}>
-              Step count only. No way to know if the last click was actually captured correctly.
-            </p>
           </div>
         </div>
 
-        {/* Arrow */}
-        <div style={{ fontSize: '28px', color: 'var(--pres-blue)', flexShrink: 0 }}>→</div>
+        {/* Body: left content-type list + right template grid */}
+        <div style={{ display: 'grid', gridTemplateColumns: '220px 1fr', minHeight: '260px' }}>
 
-        {/* AFTER: GuiddeBar with step count + description + expanded list */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', alignItems: 'center' }}>
-          <div style={{ fontSize: '11px', fontWeight: 700, color: 'var(--pres-blue)', letterSpacing: '0.06em', textTransform: 'uppercase' }}>After</div>
-          <div style={{ width: '100%', background: '#EBEDF0', borderRadius: '10px', padding: '20px', display: 'flex', flexDirection: 'column', gap: '10px', border: '1.5px solid rgba(75,123,245,0.3)', boxShadow: '0 4px 16px rgba(75,123,245,0.1)' }}>
-            {/* Expanded step list above bar */}
-            <div style={{ background: 'white', border: '1px solid #E5E7EB', borderRadius: '10px', padding: '8px 12px', boxShadow: '0 2px 10px rgba(0,0,0,0.08)' }}>
-              {capturedSteps.map((s, i) => (
-                <div key={i} style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '5px 0', borderBottom: i < capturedSteps.length - 1 ? '1px solid #F3F4F6' : 'none' }}>
-                  <span style={{ fontSize: '11px', fontWeight: 700, color: s.done ? '#10B981' : '#4B7BF5', width: '14px', flexShrink: 0 }}>{s.done ? '✓' : '◉'}</span>
-                  <span style={{ fontSize: '12px', color: '#374151', fontWeight: s.done ? 400 : 600 }}>{s.text}</span>
+          {/* Left: content type list */}
+          <div style={{ borderRight: '1px solid #E5E7EB', padding: '14px 0', background: '#FAFAFA' }}>
+            <div style={{ fontSize: '10px', fontWeight: 800, color: '#9CA3AF', letterSpacing: '0.09em', textTransform: 'uppercase', padding: '0 16px', marginBottom: '8px' }}>Content Type</div>
+            {contentTypes.map(({ icon, label, active }) => (
+              <div key={label} style={{
+                display: 'flex', alignItems: 'center', gap: '10px',
+                padding: '9px 16px', cursor: 'pointer',
+                background: active ? `${color}0e` : 'transparent',
+                borderLeft: active ? `3px solid ${color}` : '3px solid transparent',
+                transition: 'all 0.12s',
+              }}>
+                <span style={{ fontSize: '15px' }}>{icon}</span>
+                <span style={{ fontSize: '13px', fontWeight: active ? 600 : 400, color: active ? color : '#374151' }}>{label}</span>
+                {active && <span style={{ marginLeft: 'auto', width: '6px', height: '6px', borderRadius: '50%', background: color, flexShrink: 0 }} />}
+              </div>
+            ))}
+          </div>
+
+          {/* Right: template grid */}
+          <div style={{ padding: '16px 20px' }}>
+            <div style={{ fontSize: '10px', fontWeight: 800, color: '#9CA3AF', letterSpacing: '0.09em', textTransform: 'uppercase', marginBottom: '12px' }}>Templates</div>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '10px' }}>
+              {templates.map(({ name, desc, selected, fav }) => (
+                <div key={name} style={{
+                  borderRadius: '10px', padding: '14px',
+                  border: selected ? `2px solid ${color}` : '1.5px solid #E5E7EB',
+                  background: selected ? `${color}06` : 'white',
+                  boxShadow: selected ? `0 0 0 3px ${color}14` : '0 1px 4px rgba(0,0,0,0.05)',
+                  cursor: 'pointer', position: 'relative',
+                  transition: 'all 0.15s',
+                }}>
+                  {/* Thumbnail placeholder */}
+                  <div style={{ height: '56px', borderRadius: '7px', background: selected ? `${color}12` : '#F3F4F6', marginBottom: '10px', display: 'flex', flexDirection: 'column', justifyContent: 'center', padding: '8px 10px', gap: '4px' }}>
+                    {[70, 50, 35].map((w, i) => (
+                      <div key={i} style={{ height: '5px', width: `${w}%`, borderRadius: '3px', background: selected ? `${color}40` : '#D1D5DB' }} />
+                    ))}
+                  </div>
+                  <div style={{ fontSize: '12px', fontWeight: 700, color: selected ? color : '#111827', marginBottom: '3px' }}>{name}</div>
+                  <div style={{ fontSize: '11px', color: '#6B7280', lineHeight: 1.4 }}>{desc}</div>
+                  {/* Fav star */}
+                  <div style={{ position: 'absolute', top: '10px', right: '10px', fontSize: '12px', color: fav ? '#F59E0B' : '#D1D5DB' }}>★</div>
+                  {/* Selected check */}
+                  {selected && (
+                    <div style={{ position: 'absolute', bottom: '10px', right: '10px', width: '18px', height: '18px', borderRadius: '50%', background: color, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '9px', color: 'white', fontWeight: 700 }}>✓</div>
+                  )}
                 </div>
               ))}
             </div>
-            {/* New GuiddeBar */}
-            <div style={{ background: 'white', borderRadius: '99px', display: 'flex', alignItems: 'center', gap: '6px', padding: '6px 14px 6px 8px', boxShadow: '0 2px 10px rgba(0,0,0,0.12)', border: '1px solid #E5E7EB', alignSelf: 'flex-start' }}>
-              <div style={{ width: '24px', height: '24px', borderRadius: '7px', background: '#E8322F', display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: 'Georgia,serif', fontSize: '13px', fontWeight: 900, color: 'white', fontStyle: 'italic', flexShrink: 0 }}>g</div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '5px', padding: '3px 10px', borderRadius: '99px', background: '#F3F4F6', cursor: 'pointer' }}>
-                <span style={{ fontSize: '12px', fontWeight: 700, color: '#374151' }}>3 Steps</span>
-                <span style={{ fontSize: '11px', color: '#9CA3AF' }}>·</span>
-                <span style={{ fontSize: '12px', color: '#6B7280', fontWeight: 500 }}>Clicked Security</span>
-                <span style={{ fontSize: '9px', color: '#9CA3AF', marginLeft: '1px' }}>▲</span>
-              </div>
-              <div style={{ width: '1px', height: '14px', background: '#E5E7EB' }} />
-              <div style={{ padding: '4px 12px', borderRadius: '99px', background: '#10B981', fontSize: '11px', fontWeight: 700, color: 'white' }}>Done</div>
-            </div>
+          </div>
+        </div>
+
+        {/* Footer */}
+        <div style={{ padding: '12px 20px', borderTop: '1px solid #E5E7EB', display: 'flex', alignItems: 'center', justifyContent: 'flex-end', gap: '8px', background: '#FAFAFA' }}>
+          <div style={{ fontSize: '13px', color: '#6B7280' }}>How-To Tutorial · Simple 5-Step selected</div>
+          <div style={{ marginLeft: '16px', padding: '8px 20px', borderRadius: '8px', background: color, color: 'white', fontSize: '13px', fontWeight: 700, cursor: 'pointer', boxShadow: `0 2px 8px ${color}40` }}>
+            Start Recording →
           </div>
         </div>
       </div>
+    </div>
+  );
+}
 
-      {/* 3 columns — GuiddeBar in context per persona */}
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '14px' }}>
-        {personas.map(({ icon, name, color, steps, lastStep, content }) => (
-          <div key={name} style={{ borderRadius: '12px', overflow: 'hidden', border: `1.5px solid ${color}25`, boxShadow: '0 4px 16px rgba(26,31,54,0.10)' }}>
-            {/* Mini browser chrome */}
-            <div style={{ background: 'white', height: '20px', borderBottom: '1px solid #E5E7EB', display: 'flex', alignItems: 'center', padding: '0 8px', gap: '4px' }}>
-              {['#FF5F57','#FEBC2E','#28C840'].map(c => <div key={c} style={{ width: '6px', height: '6px', borderRadius: '50%', background: c }} />)}
-              <div style={{ flex: 1, height: '10px', background: '#F3F4F6', borderRadius: '3px', margin: '0 6px' }} />
+// ── Feature 03: Template-Driven Output ───────────────────────────────────────
+
+function SlideTemplateOutput() {
+  const steps = [
+    { n: 1, label: 'Go to Settings',   desc: 'Navigate to the main account menu'          },
+    { n: 2, label: 'Open Account',     desc: 'Select the Account section from sidebar'    },
+    { n: 3, label: 'Click Security',   desc: 'Access security preferences tab'            },
+    { n: 4, label: 'Enable 2FA',       desc: 'Toggle 2FA to enable protection'            },
+  ];
+  const color = '#4B7BF5';
+
+  return (
+    <div className="pres-content-wrap" style={{ gap: '24px' }}>
+      <div>
+        <h2 className="pres-title">Template-Driven Output</h2>
+        <p className="pres-subtitle" style={{ marginTop: '8px' }}>
+          The auto-generated Guidde opens inside the template the user chose before recording. The output matches what they picked, so the aha moment actually lands.
+        </p>
+      </div>
+
+      {/* Output viewer mockup */}
+      <div style={{ width: '100%', background: '#F3F4F6', borderRadius: '14px', overflow: 'hidden', boxShadow: '0 8px 40px rgba(26,31,54,0.12)', border: '1px solid var(--g-border)' }}>
+
+        {/* Top nav */}
+        <div style={{ height: '44px', background: 'white', borderBottom: '1px solid #E5E7EB', display: 'flex', alignItems: 'center', padding: '0 16px', gap: '10px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+            <div style={{ width: '22px', height: '22px', borderRadius: '6px', background: '#F3F4F6', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '12px', color: '#6B7280' }}>←</div>
+            <span style={{ fontSize: '13px', fontWeight: 600, color: '#111827' }}>How to Enable Two-Factor Authentication</span>
+          </div>
+          <div style={{ marginLeft: 'auto', display: 'flex', alignItems: 'center', gap: '6px' }}>
+            <div style={{ padding: '4px 10px', borderRadius: '6px', border: '1px solid #E5E7EB', fontSize: '11px', fontWeight: 600, color: '#374151' }}>↗ Share</div>
+            <div style={{ padding: '4px 12px', borderRadius: '6px', background: color, fontSize: '11px', fontWeight: 700, color: 'white', boxShadow: `0 2px 6px ${color}40` }}>✎ Edit</div>
+          </div>
+        </div>
+
+        {/* Body */}
+        <div style={{ display: 'grid', gridTemplateColumns: '200px 1fr', height: '270px' }}>
+
+          {/* TOC sidebar */}
+          <div style={{ background: 'white', borderRight: '1px solid #E5E7EB', display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
+            <div style={{ padding: '10px 12px 8px', borderBottom: '1px solid #F3F4F6', flexShrink: 0 }}>
+              <span style={{ fontSize: '10px', fontWeight: 800, color: '#374151', letterSpacing: '0.07em', textTransform: 'uppercase' }}>Table of Contents</span>
             </div>
-            {/* Page */}
-            <div style={{ height: '110px', padding: '8px', position: 'relative', background: '#EBEDF0' }}>
-              {content.map((item, i) => (
-                <div key={i} style={{ background: i === 0 ? 'white' : 'rgba(255,255,255,0.55)', borderRadius: '4px', padding: '4px 8px', marginBottom: '4px', fontSize: '9px', color: '#374151', border: i === 1 ? `1px solid ${color}40` : 'none', fontWeight: i === 1 ? 600 : 400 }}>{item}</div>
-              ))}
-              {/* GuiddeBar bottom-left */}
-              <div style={{ position: 'absolute', bottom: '8px', left: '8px' }}>
-                <div style={{ background: 'white', borderRadius: '99px', boxShadow: '0 2px 8px rgba(0,0,0,0.18)', border: '1px solid #E5E7EB', display: 'flex', alignItems: 'center', gap: '4px', padding: '3px 8px 3px 4px', whiteSpace: 'nowrap' }}>
-                  <div style={{ width: '16px', height: '16px', borderRadius: '5px', background: '#E8322F', display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: 'Georgia,serif', fontSize: '9px', fontWeight: 900, color: 'white', fontStyle: 'italic', flexShrink: 0 }}>g</div>
-                  <div style={{ background: color, color: 'white', borderRadius: '99px', padding: '1px 6px', fontSize: '9px', fontWeight: 700 }}>{steps} Steps</div>
-                  <span style={{ fontSize: '9px', color: '#6B7280', fontWeight: 500 }}>· {lastStep}</span>
-                  <span style={{ fontSize: '8px', color: '#9CA3AF' }}>▼</span>
+            {/* Video entry */}
+            <div style={{ display: 'flex', alignItems: 'center', gap: '7px', padding: '7px 10px', background: `${color}10`, border: `1px solid ${color}25`, margin: '6px 8px', borderRadius: '7px', cursor: 'pointer' }}>
+              <span style={{ fontSize: '11px', color }}>▶</span>
+              <span style={{ fontSize: '12px', fontWeight: 700, color }}>Video</span>
+            </div>
+            {/* Steps */}
+            {steps.map(({ n, label }) => (
+              <div key={n} style={{ display: 'flex', alignItems: 'center', gap: '7px', padding: '6px 10px', cursor: 'pointer' }}
+                onMouseEnter={e => e.currentTarget.style.background = '#F9FAFB'}
+                onMouseLeave={e => e.currentTarget.style.background = 'transparent'}>
+                <span style={{ fontSize: '10px', fontWeight: 700, color: '#9CA3AF', width: '18px', flexShrink: 0 }}>{String(n).padStart(2,'0')}</span>
+                <span style={{ fontSize: '12px', color: '#374151' }}>{label}</span>
+              </div>
+            ))}
+          </div>
+
+          {/* Main content */}
+          <div style={{ overflowY: 'auto', padding: '20px 24px', display: 'flex', flexDirection: 'column', gap: '14px' }}>
+
+            {/* Video thumbnail */}
+            <div style={{ width: '100%', aspectRatio: '16/6', background: 'linear-gradient(135deg,#EEF3FE,#DBEAFE)', borderRadius: '10px', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, position: 'relative', overflow: 'hidden' }}>
+              <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '6px' }}>
+                <div style={{ width: '36px', height: '36px', borderRadius: '50%', background: 'rgba(75,123,245,0.15)', border: `2px solid ${color}`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '14px' }}>▶</div>
+                <span style={{ fontSize: '11px', fontWeight: 600, color }}>1:12 · Help Article</span>
+              </div>
+              <div style={{ position: 'absolute', top: '8px', left: '10px', fontSize: '10px', fontWeight: 700, color, background: `${color}18`, padding: '2px 8px', borderRadius: '4px' }}>Simple 5-Step Template</div>
+            </div>
+
+            {/* Step cards */}
+            {steps.slice(0, 2).map(({ n, label, desc }) => (
+              <div key={n} style={{ display: 'flex', gap: '12px', alignItems: 'flex-start' }}>
+                <div style={{ width: '28px', height: '28px', borderRadius: '8px', background: color, color: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '12px', fontWeight: 800, flexShrink: 0 }}>{n}</div>
+                <div style={{ flex: 1 }}>
+                  <div style={{ fontSize: '13px', fontWeight: 700, color: '#111827', marginBottom: '3px' }}>{label}</div>
+                  <div style={{ fontSize: '12px', color: '#6B7280', lineHeight: 1.4 }}>{desc}</div>
+                  {/* Screenshot placeholder */}
+                  <div style={{ marginTop: '8px', height: '44px', background: '#F3F4F6', borderRadius: '7px', border: '1px solid #E5E7EB', display: 'flex', alignItems: 'center', padding: '0 12px', gap: '8px' }}>
+                    <div style={{ width: '28px', height: '28px', borderRadius: '5px', background: '#E5E7EB' }} />
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+                      <div style={{ height: '5px', width: '80px', borderRadius: '3px', background: '#D1D5DB' }} />
+                      <div style={{ height: '4px', width: '55px', borderRadius: '3px', background: '#E5E7EB' }} />
+                    </div>
+                    <div style={{ marginLeft: 'auto', width: '18px', height: '18px', borderRadius: '50%', background: `${color}18`, border: `1px solid ${color}30`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '9px', color, fontWeight: 700 }}>✦</div>
+                  </div>
                 </div>
               </div>
-            </div>
-            {/* Footer */}
-            <div style={{ background: 'white', borderTop: `1px solid ${color}18`, padding: '7px 10px', display: 'flex', alignItems: 'center', gap: '6px' }}>
-              <span style={{ fontSize: '16px' }}>{icon}</span>
-              <span style={{ fontSize: '11px', fontWeight: 700, color: '#111' }}>{name}</span>
-            </div>
+            ))}
           </div>
-        ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function SlideCapturePersona() {
+  // Steps shown in the "After" expanded dropdown
+  const afterSteps = [
+    { n: 1,  text: 'Clicked "Settings"',           warn: null },
+    { n: 2,  text: 'Clicked "Security" tab',        warn: null },
+    { n: 3,  text: 'Clicked "Security" tab',        warn: 'duplicate' },
+    { n: 4,  text: 'Clicked on empty area',         warn: 'empty' },
+    { n: 5,  text: 'Toggled "Enable 2FA"',          warn: null },
+  ];
+
+  // Icon set recreated from the real bar (image 13)
+  const BarIcon = ({ children, title }) => (
+    <div title={title} style={{
+      width: '28px', height: '28px', display: 'flex', alignItems: 'center',
+      justifyContent: 'center', borderRadius: '6px', cursor: 'pointer',
+      color: '#6B7280', fontSize: '13px',
+      transition: 'background 0.12s',
+    }}>{children}</div>
+  );
+
+  const warnColor = { duplicate: '#F59E0B', empty: '#EF4444' };
+  const warnLabel = { duplicate: 'Duplicate click', empty: 'Empty click, nothing was recorded' };
+
+  return (
+    <div className="pres-content-wrap" style={{ gap: '28px' }}>
+      <div>
+        <h2 className="pres-title">Smart Capture Bar</h2>
+        <p className="pres-subtitle" style={{ marginTop: '8px' }}>
+          The recording bar now shows what each step actually captured. Users can expand it to review steps, spot duplicate or empty clicks, and remove them on the spot.
+        </p>
       </div>
 
-      {/* Callout */}
-      <div style={{ padding: '14px 20px', borderRadius: '10px', background: 'rgba(52,211,153,0.06)', border: '1.5px solid rgba(52,211,153,0.2)', display: 'flex', alignItems: 'center', gap: '16px' }}>
-        <span style={{ fontSize: '20px', flexShrink: 0 }}>⚡</span>
-        <div>
-          <span style={{ fontSize: '11px', fontWeight: 800, color: '#059669', letterSpacing: '0.08em', textTransform: 'uppercase' }}>Why this reduces anxiety — </span>
-          <span style={{ fontSize: '13px', color: 'var(--pres-text-dark)', lineHeight: 1.5, fontWeight: 500 }}>
-            Users know exactly what was recorded and can verify it instantly. A missed step is caught on the spot — not discovered after the fact when they open the editor.
-          </span>
+      <div style={{ display: 'flex', justifyContent: 'center' }}>
+
+        <div style={{ width: '100%', maxWidth: '560px' }}>
+          <div style={{
+            background: '#F3F4F6', borderRadius: '14px', padding: '20px 20px 20px',
+            display: 'flex', flexDirection: 'column', gap: '0',
+            border: '1.5px solid rgba(75,123,245,0.35)',
+            boxShadow: '0 4px 24px rgba(75,123,245,0.12)',
+          }}>
+
+            {/* Dropdown panel */}
+            <div style={{
+              background: '#ffffff', borderRadius: '10px 10px 0 0',
+              border: '1px solid #E5E7EB', borderBottom: 'none',
+              overflow: 'hidden', marginBottom: '0',
+            }}>
+              {/* Panel header */}
+              <div style={{
+                padding: '9px 14px', background: '#F9FAFB',
+                borderBottom: '1px solid #E5E7EB',
+                display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+              }}>
+                <span style={{ fontSize: '11px', fontWeight: 700, color: '#6B7280', letterSpacing: '0.06em', textTransform: 'uppercase' }}>Captured Steps</span>
+                <span style={{ fontSize: '11px', color: '#EF4444', fontWeight: 600 }}>2 issues</span>
+              </div>
+
+              {/* Step rows */}
+              {afterSteps.map(({ n, text, warn }) => (
+                <div key={n} style={{
+                  display: 'flex', alignItems: 'center', gap: '10px',
+                  padding: '9px 14px',
+                  background: warn ? (warn === 'duplicate' ? 'rgba(245,158,11,0.05)' : 'rgba(239,68,68,0.05)') : 'white',
+                  borderBottom: '1px solid #F3F4F6',
+                }}>
+                  {/* Step number */}
+                  <span style={{
+                    fontSize: '10px', fontWeight: 700,
+                    color: warn ? warnColor[warn] : '#9CA3AF',
+                    width: '16px', flexShrink: 0, textAlign: 'right',
+                  }}>{n}</span>
+
+                  {/* Warning icon or dot */}
+                  {warn
+                    ? <span style={{ fontSize: '13px', flexShrink: 0 }}>{warn === 'duplicate' ? '⚠️' : '🚫'}</span>
+                    : <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#10B981', flexShrink: 0, display: 'inline-block' }} />
+                  }
+
+                  {/* Description */}
+                  <span style={{ flex: 1, fontSize: '13px', color: warn ? warnColor[warn] : '#1A1F36', fontWeight: warn ? 600 : 400, lineHeight: 1.3 }}>
+                    {text}
+                    {warn && <span style={{ display: 'block', fontSize: '11px', fontWeight: 400, color: warnColor[warn], opacity: 0.8 }}>{warnLabel[warn]}</span>}
+                  </span>
+
+                  {/* Remove button */}
+                  <button style={{
+                    width: '20px', height: '20px', borderRadius: '4px',
+                    border: 'none', background: warn ? `${warnColor[warn]}18` : '#F3F4F6',
+                    color: warn ? warnColor[warn] : '#9CA3AF',
+                    fontSize: '11px', fontWeight: 700,
+                    cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center',
+                    flexShrink: 0, lineHeight: 1,
+                  }}>×</button>
+                </div>
+              ))}
+            </div>
+
+            {/* Bar — light mode, matching the real extension style */}
+            <div style={{
+              background: '#ffffff', borderRadius: '0 0 10px 10px',
+              display: 'flex', alignItems: 'center', gap: '4px',
+              padding: '7px 12px',
+              border: '1px solid #E5E7EB',
+              boxShadow: '0 2px 8px rgba(26,31,54,0.08)',
+            }}>
+              {/* Logo */}
+              <div style={{
+                width: '26px', height: '26px', borderRadius: '7px', background: '#E8322F',
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                fontFamily: 'Georgia,serif', fontSize: '14px', fontWeight: 900,
+                color: 'white', fontStyle: 'italic', flexShrink: 0,
+              }}>g</div>
+
+              {/* Step pill with last-step description */}
+              <div style={{
+                display: 'flex', alignItems: 'center', gap: '6px',
+                padding: '4px 12px', borderRadius: '99px',
+                background: '#F3F4F6', marginLeft: '4px', cursor: 'pointer',
+              }}>
+                <span style={{ fontSize: '12px', fontWeight: 700, color: '#1A1F36' }}>5 Steps</span>
+                <span style={{ width: '3px', height: '3px', borderRadius: '50%', background: '#D1D5DB', display: 'inline-block' }} />
+                <span style={{ fontSize: '12px', color: '#6B7280' }}>Toggled "Enable 2FA"</span>
+                <span style={{ fontSize: '9px', color: '#9CA3AF', marginLeft: '2px' }}>▲</span>
+              </div>
+
+              {/* Warning badge */}
+              <div style={{
+                padding: '3px 9px', borderRadius: '99px',
+                background: 'rgba(239,68,68,0.08)', border: '1px solid rgba(239,68,68,0.25)',
+                fontSize: '11px', fontWeight: 700, color: '#EF4444', marginLeft: '2px',
+              }}>2 issues</div>
+
+              <div style={{ flex: 1 }} />
+
+              {/* Done button */}
+              <div style={{
+                padding: '5px 14px', borderRadius: '99px',
+                background: '#4B7BF5', fontSize: '12px', fontWeight: 700, color: 'white', cursor: 'pointer',
+              }}>Done</div>
+
+              {/* Icons: pause, trash */}
+              <BarIcon title="Pause">⏸</BarIcon>
+              <BarIcon title="Delete">🗑</BarIcon>
+            </div>
+          </div>
         </div>
+
       </div>
     </div>
   );
@@ -1180,7 +1348,7 @@ function SlideAIEditor() {
       <div style={{ textAlign: 'center' }}>
         <h2 className="pres-title" style={{ fontSize: 'clamp(36px, 4.5vw, 60px)' }}>The AI Chat Editor</h2>
         <p className="pres-subtitle" style={{ marginTop: '10px', fontSize: 'clamp(16px, 1.6vw, 20px)' }}>
-          Advanced controls hidden by default. Users edit through natural language — the AI already knows their content type and goal.
+          Advanced controls are hidden by default. Users just describe what they want changed and the AI handles it, already knowing what kind of Guidde they're editing.
         </p>
       </div>
 
@@ -1193,7 +1361,7 @@ function SlideAIEditor() {
             {['#FF5F57','#FEBC2E','#28C840'].map(c => <div key={c} style={{ width: '10px', height: '10px', borderRadius: '50%', background: c }} />)}
           </div>
           <div style={{ flex: 1, textAlign: 'center', fontSize: '11px', color: 'rgba(255,255,255,0.4)', fontWeight: 500 }}>
-            Guidde — Security 2FA Setup Guide
+            Guidde · Security 2FA Setup Guide
           </div>
         </div>
 
@@ -1363,14 +1531,14 @@ function SlideAIEditor() {
       {/* 3 callouts */}
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '14px', width: '100%' }}>
         {[
-          { icon: '🙈', label: 'Advanced controls hidden', sub: 'The icon nav expands per panel — never visible all at once by default' },
+          { icon: '🙈', label: 'Advanced controls hidden', sub: 'The icon nav expands one panel at a time. Nothing is thrown at the user all at once.' },
           { icon: '🎯', label: 'Persona-aware AI', sub: '"Make this cleaner" means article clarity for Support, brand polish for Sales' },
           { icon: '⚡', label: 'Auto-approve default', sub: 'Changes apply instantly. Undo is always one click away. Power users can toggle manual review.' },
         ].map(({ icon, label, sub }) => (
-          <div key={label} style={{ padding: '16px 18px', background: 'rgba(255,255,255,0.035)', borderRadius: '12px', border: '1px solid rgba(255,255,255,0.07)', display: 'flex', flexDirection: 'column', gap: '6px' }}>
+          <div key={label} style={{ padding: '16px 18px', background: 'white', borderRadius: '12px', border: '1px solid var(--g-border)', display: 'flex', flexDirection: 'column', gap: '6px' }}>
             <div style={{ fontSize: '20px' }}>{icon}</div>
-            <div style={{ fontFamily: "'Bricolage Grotesque', sans-serif", fontWeight: 700, fontSize: '14px', color: 'white', lineHeight: 1.2 }}>{label}</div>
-            <div style={{ fontSize: '12px', color: 'rgba(255,255,255,0.45)', lineHeight: 1.45 }}>{sub}</div>
+            <div style={{ fontFamily: "'Bricolage Grotesque', sans-serif", fontWeight: 700, fontSize: '14px', color: 'var(--g-text)', lineHeight: 1.2 }}>{label}</div>
+            <div style={{ fontSize: '12px', color: 'var(--g-muted)', lineHeight: 1.45 }}>{sub}</div>
           </div>
         ))}
       </div>
@@ -1380,262 +1548,330 @@ function SlideAIEditor() {
 
 function SlideValidation() {
   const assumptions = [
-    {
-      num: '1',
-      assumption: 'Most users only need simple edits',
-      method: 'Usability test',
-      how: 'Recruit 8 new users. Ask them to edit their first auto-generated Guidde. Observe whether they reach for advanced controls without being prompted.',
-      signal: 'If <20% touch the advanced toolbar unprompted → assumption confirmed',
-      color: 'var(--pres-blue)',
-    },
-    {
-      num: '2',
-      assumption: 'Killing the aha moment is fatal',
-      method: 'Funnel analysis',
-      how: 'In existing data, measure drop-off between "Guidde auto-generated" and "Share clicked." Compare this drop-off rate to every earlier step in the funnel.',
-      signal: 'If editor drop-off is >40% and the largest single drop → assumption confirmed',
-      color: 'var(--pres-purple)',
-    },
-    {
-      num: '3',
-      assumption: 'Good defaults beat full control',
-      method: 'A/B test (editor only)',
-      how: 'Split existing users: constrained AI editor (new) vs. full editor (control). Measure time-to-share and completion rate — not just clicks.',
-      signal: 'If time-to-share drops >25% in treatment → assumption confirmed',
-      color: 'var(--pres-amber)',
-    },
+    { claim: 'Editor is the highest drop-off step', method: 'Funnel analysis', check: 'Measure drop rate at 3 steps: Recording start, Review output, Editor. If editor drop is the highest, AI Editor stays P0. If another step leads, reprioritize accordingly.' },
+    { claim: 'Templates cover real use cases per type', method: 'Event data', check: 'Query content type selection distribution from existing sessions. Identify the top use cases per type and confirm templates map to them.' },
+    { claim: 'Capture errors go unnoticed', method: 'Support tickets', check: 'Filter tickets tagged "wrong steps" or "duplicate clicks". Low volume weakens the Smart Capture priority.' },
   ];
 
-  const abRows = [
-    { label: 'Split',     value: '50 / 50 — new sign-ups only' },
-    { label: 'Duration',  value: '4 weeks (enough for 7-day window + buffer)' },
-    { label: 'Primary',   value: 'First Shared Guidde within 7 days' },
-    { label: 'Secondary', value: 'Template selection rate · Capture bar expansion · AI chip first-click · Editor completion' },
-    { label: 'Ship if',   value: 'Treatment ≥ 25% activation (vs ~15% baseline)' },
-    { label: 'Reassess if', value: 'Treatment < 20% — diagnose which funnel step still drops' },
-  ];
-
-  const leading = [
-    { icon: '🎯', label: 'Template selection rate', sub: 'Did users pick a template before recording? Proxy for: does the new entry point land?' },
-    { icon: '📋', label: 'Capture bar interaction rate', sub: 'Did users expand the bar to review steps? Proxy for: does the live feedback reduce anxiety?' },
-    { icon: '💬', label: 'AI chat first-click rate', sub: 'Did users click at least one AI chip? Proxy for: does the constrained editor feel approachable?' },
+  const features = [
+    { name: 'Template-Driven Output', metric: 'Helpful / Not Helpful rating on first Guidde', success: '75%+ rate Helpful', color: '#DC2626' },
+    { name: 'Type + Template Selection', metric: 'Template selection rate + drop-off at selection step', success: '>70% select, no new drop-off', color: '#D97706' },
+    { name: 'Smart Capture Bar', metric: '% of sessions where a flagged step is removed before finishing', success: '>30% of flagged sessions fixed', color: '#6B7280' },
+    { name: 'AI Editor', metric: 'Editor completion rate (open editor → click Share)', success: '+25% vs. baseline', color: '#6B7280' },
   ];
 
   return (
-    <div className="pres-content-wrap" style={{ gap: '28px' }}>
+    <div className="pres-content-wrap" style={{ gap: '22px' }}>
       <div>
         <h2 className="pres-title">Validation Plan</h2>
-        <p className="pres-subtitle" style={{ marginTop: '12px' }}>How I would validate assumptions before building — and the solution after shipping</p>
+        <p className="pres-subtitle" style={{ marginTop: '8px' }}>Two stages: confirm assumptions before writing code, then measure each feature after it ships.</p>
       </div>
 
-      {/* Part A — Assumptions */}
-      <div>
-        <div style={{ fontSize: '11px', fontWeight: 800, letterSpacing: '0.09em', textTransform: 'uppercase', color: 'var(--pres-text-muted)', marginBottom: '12px' }}>A — Validate assumptions first</div>
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-          {assumptions.map(({ num, assumption, method, how, signal, color }) => (
-            <div key={num} className="pres-card" style={{ flexDirection: 'row', alignItems: 'flex-start', gap: '20px', padding: '20px 24px' }}>
-              <div className="pres-card-accent-left" style={{ background: color }} />
-              <div style={{ width: '32px', height: '32px', borderRadius: '50%', background: color, display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 800, fontSize: '14px', color: 'white', flexShrink: 0 }}>{num}</div>
-              <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '6px' }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '10px', flexWrap: 'wrap' }}>
-                  <span style={{ fontFamily: "'Bricolage Grotesque',sans-serif", fontWeight: 700, fontSize: '16px', color: 'var(--pres-text-dark)' }}>"{assumption}"</span>
-                  <span style={{ fontSize: '11px', fontWeight: 700, background: `color-mix(in srgb, ${color} 12%, white)`, color, borderRadius: '99px', padding: '3px 10px' }}>{method}</span>
-                </div>
-                <p className="pres-card-body" style={{ fontSize: '14px', margin: 0 }}>{how}</p>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '6px', marginTop: '2px' }}>
-                  <span style={{ fontWeight: 700, fontSize: '12px', color }}>→</span>
-                  <span style={{ fontSize: '12px', color: 'var(--pres-text-muted)', fontStyle: 'italic' }}>{signal}</span>
-                </div>
-              </div>
-            </div>
+      {/* Stage 1 */}
+      <div className="pres-card" style={{ padding: '0', overflow: 'hidden' }}>
+        <div style={{ padding: '12px 20px', borderBottom: '1px solid var(--g-border)', background: 'rgba(75,123,245,0.06)', display: 'flex', alignItems: 'center', gap: '12px' }}>
+          <div className="pres-tag blue">Stage 1</div>
+          <span style={{ fontWeight: 700, fontSize: '16px' }}>Confirm assumptions before building</span>
+        </div>
+        <div style={{ display: 'grid', gridTemplateColumns: '160px 1fr 1.4fr', padding: '9px 20px', background: '#F9FAFB', borderBottom: '1px solid var(--g-border)', gap: '16px' }}>
+          {['Method', 'Assumption', 'What to check'].map(h => (
+            <div key={h} style={{ fontSize: '11px', fontWeight: 700, color: 'var(--g-muted)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>{h}</div>
           ))}
         </div>
+        {assumptions.map(({ claim, method, check }, i) => (
+          <div key={claim} style={{ display: 'grid', gridTemplateColumns: '160px 1fr 1.4fr', padding: '13px 20px', borderBottom: i < assumptions.length - 1 ? '1px solid var(--g-border)' : 'none', gap: '16px', alignItems: 'start' }}>
+            <div style={{ fontSize: '12px', fontWeight: 700, color: 'var(--pres-blue)', background: 'rgba(75,123,245,0.08)', padding: '4px 10px', borderRadius: '6px', textAlign: 'center' }}>{method}</div>
+            <div style={{ fontSize: '14px', fontWeight: 600, color: '#111827', lineHeight: 1.4 }}>{claim}</div>
+            <div style={{ fontSize: '13px', color: 'var(--g-muted)', lineHeight: 1.5 }}>{check}</div>
+          </div>
+        ))}
       </div>
 
-      {/* Part B + C side by side */}
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
-        {/* Part B — A/B test */}
-        <div className="pres-card" style={{ padding: '20px 24px', gap: '12px' }}>
-          <div style={{ fontSize: '11px', fontWeight: 800, letterSpacing: '0.09em', textTransform: 'uppercase', color: 'var(--pres-text-muted)' }}>B — Validate the solution</div>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-            {abRows.map(({ label, value }) => (
-              <div key={label} style={{ display: 'grid', gridTemplateColumns: '88px 1fr', gap: '12px', alignItems: 'start' }}>
-                <span style={{ fontSize: '11px', fontWeight: 700, color: 'var(--pres-text-muted)', textTransform: 'uppercase', letterSpacing: '0.05em', paddingTop: '2px' }}>{label}</span>
-                <span style={{ fontSize: '13px', color: 'var(--pres-text-dark)', lineHeight: 1.5 }}>{value}</span>
-              </div>
-            ))}
-          </div>
+      {/* Stage 2 */}
+      <div className="pres-card" style={{ padding: '0', overflow: 'hidden' }}>
+        <div style={{ padding: '12px 20px', borderBottom: '1px solid var(--g-border)', background: 'rgba(139,92,246,0.06)', display: 'flex', alignItems: 'center', gap: '12px' }}>
+          <div className="pres-tag purple">Stage 2</div>
+          <span style={{ fontWeight: 700, fontSize: '16px' }}>Measure each feature after it ships</span>
         </div>
-
-        {/* Part C — Leading indicators */}
-        <div className="pres-card" style={{ padding: '20px 24px', gap: '12px' }}>
-          <div style={{ fontSize: '11px', fontWeight: 800, letterSpacing: '0.09em', textTransform: 'uppercase', color: 'var(--pres-text-muted)' }}>C — Week 1 leading indicators</div>
-          <p className="pres-card-body" style={{ fontSize: '13px', margin: 0 }}>Before the 7-day window closes, these proxies tell us if friction was actually removed:</p>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', marginTop: '4px' }}>
-            {leading.map(({ icon, label, sub }) => (
-              <div key={label} style={{ display: 'flex', alignItems: 'flex-start', gap: '10px' }}>
-                <span style={{ fontSize: '18px', flexShrink: 0 }}>{icon}</span>
-                <div>
-                  <div style={{ fontFamily: "'Bricolage Grotesque',sans-serif", fontWeight: 700, fontSize: '14px', color: 'var(--pres-text-dark)' }}>{label}</div>
-                  <div style={{ fontSize: '12px', color: 'var(--pres-text-muted)', lineHeight: 1.4, marginTop: '2px' }}>{sub}</div>
-                </div>
-              </div>
-            ))}
-          </div>
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1.6fr 1fr', padding: '9px 20px', background: '#F9FAFB', borderBottom: '1px solid var(--g-border)', gap: '16px' }}>
+          {['Feature', 'Metric', 'Success if...'].map(h => (
+            <div key={h} style={{ fontSize: '11px', fontWeight: 700, color: 'var(--g-muted)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>{h}</div>
+          ))}
         </div>
+        {features.map(({ name, metric, success, color }, i) => (
+          <div key={name} style={{ display: 'grid', gridTemplateColumns: '1fr 1.6fr 1fr', padding: '13px 20px', borderBottom: i < features.length - 1 ? '1px solid var(--g-border)' : 'none', gap: '16px', alignItems: 'start' }}>
+            <div style={{ fontSize: '14px', fontWeight: 700, color, lineHeight: 1.3 }}>{name}</div>
+            <div style={{ fontSize: '13px', color: '#374151', lineHeight: 1.5 }}>{metric}</div>
+            <div style={{ fontSize: '13px', color: '#059669', fontWeight: 600, lineHeight: 1.4 }}>{success}</div>
+          </div>
+        ))}
       </div>
     </div>
   );
 }
 
 function Slide15Metrics() {
+  const MetricRow = ({ label, description, target, tagColor }) => (
+    <div style={{
+      display: 'grid',
+      gridTemplateColumns: '1fr auto',
+      alignItems: 'center',
+      padding: '14px 20px',
+      borderBottom: '1px solid var(--g-border)',
+      gap: '24px',
+    }}>
+      <div>
+        <div style={{ fontWeight: 700, fontSize: '17px', color: 'var(--pres-text)', marginBottom: '2px' }}>{label}</div>
+        <div style={{ fontSize: '14px', color: 'var(--pres-text-muted)' }}>{description}</div>
+      </div>
+      <div style={{ textAlign: 'right', whiteSpace: 'nowrap' }}>
+        <div style={{ fontSize: '24px', fontWeight: 800, color: tagColor || 'var(--pres-blue)' }}>{target}</div>
+      </div>
+    </div>
+  );
+
   return (
     <div className="pres-content-wrap">
       <h2 className="pres-title">How To Measure Success</h2>
 
-      <div className="pres-cards-col">
-        <div className="pres-card" style={{ border: '2px solid var(--pres-blue)', background: 'rgba(75, 123, 245, 0.05)' }}>
-          <div className="pres-tag blue" style={{ marginBottom: '12px' }}>⭐ MAIN METRIC</div>
-          <h3 className="pres-card-title" style={{ fontSize: '32px' }}>7-Day Success Rate</h3>
-          <p className="pres-card-body">How many users create AND share their first Guidde within 7 days?</p>
-          <div style={{ display: 'flex', gap: '40px', marginTop: '24px', alignItems: 'baseline' }}>
-            <div>
-              <div style={{ fontSize: '16px', color: 'var(--pres-text-muted)' }}>Right Now</div>
-              <div className="pres-metric-huge" style={{ color: 'var(--pres-text-muted)', fontSize: '48px' }}>~15%</div>
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px', marginTop: '36px' }}>
+
+        {/* North Star */}
+        <div className="pres-card" style={{ border: '2px solid var(--pres-blue)', background: 'rgba(75, 123, 245, 0.04)', gridColumn: '1 / -1', padding: '0', overflow: 'hidden' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr auto', alignItems: 'center', padding: '18px 24px', gap: '24px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
+              <div className="pres-tag blue">NORTH STAR</div>
+              <div>
+                <div style={{ fontWeight: 700, fontSize: '19px' }}>7-Day Activation Rate</div>
+                <div style={{ fontSize: '14px', color: 'var(--pres-text-muted)', marginTop: '2px' }}>Users who create and share their first Guidde within 7 days of install</div>
+              </div>
             </div>
-            <div style={{ fontSize: '36px', color: 'var(--pres-text-muted)' }}>→</div>
+            <div style={{ fontSize: '48px', fontWeight: 800, color: 'var(--pres-blue)', lineHeight: 1 }}>+15%</div>
+          </div>
+        </div>
+
+        {/* Funnel Metrics */}
+        <div className="pres-card" style={{ padding: '0', overflow: 'hidden' }}>
+          <div style={{ padding: '12px 20px', borderBottom: '1px solid var(--g-border)', background: 'rgba(0,0,0,0.02)' }}>
+            <div className="pres-tag purple">FUNNEL</div>
+          </div>
+          <MetricRow
+            label="Template Selection Rate"
+            description="New users who pick a template before recording"
+            target="70%"
+            tagColor="var(--pres-purple)"
+          />
+          <MetricRow
+            label="Capture Bar Engagement"
+            description="Sessions where user expands the step dropdown"
+            target="40%"
+            tagColor="var(--pres-purple)"
+          />
+          <MetricRow
+            label="Editor Completion Rate"
+            description="Users who open editor and click Share"
+            target="+25%"
+            tagColor="var(--pres-purple)"
+          />
+        </div>
+
+        {/* Retention + Business */}
+        <div className="pres-card" style={{ padding: '0', overflow: 'hidden' }}>
+          <div style={{ padding: '12px 20px', borderBottom: '1px solid var(--g-border)', background: 'rgba(0,0,0,0.02)' }}>
+            <div className="pres-tag amber">RETENTION + BUSINESS</div>
+          </div>
+          <MetricRow
+            label="Day-30 Return Rate"
+            description="Activated users who create a second Guidde within 30 days"
+            target="+15%"
+            tagColor="var(--pres-amber)"
+          />
+          <MetricRow
+            label="Pro Conversion"
+            description="Activated users who upgrade to Pro within 30 days"
+            target="+4%"
+            tagColor="var(--pres-amber)"
+          />
+          <MetricRow
+            label="First Guidde Rating"
+            description="Users who mark their first Guidde as Helpful"
+            target="80% Helpful"
+            tagColor="var(--pres-amber)"
+          />
+        </div>
+
+
+</div>
+    </div>
+  );
+}
+
+function SlideThankYou() {
+  return (
+    <div style={{
+      position: 'relative',
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
+      justifyContent: 'center',
+      minHeight: '60vh',
+      width: '100%',
+      maxWidth: '900px',
+      textAlign: 'center',
+    }}>
+      {/* Pulsing record-button rings */}
+      <div className="ty-ring" style={{ width: '540px', height: '540px', opacity: 0.13, animationDelay: '0s' }} />
+      <div className="ty-ring" style={{ width: '380px', height: '380px', opacity: 0.09, animationDelay: '0.7s' }} />
+      <div className="ty-ring" style={{ width: '220px', height: '220px', opacity: 0.07, animationDelay: '1.4s' }} />
+
+      {/* Top gradient rule */}
+      <div className="ty-line" style={{
+        width: '160px', height: '1.5px', marginBottom: '44px',
+        background: 'linear-gradient(to right, transparent, var(--g-brand), transparent)',
+        animationDelay: '0.05s',
+      }} />
+
+      {/* THANK */}
+      <div className="ty-reveal" style={{
+        fontFamily: "'Bricolage Grotesque', sans-serif",
+        fontWeight: 800,
+        fontSize: 'clamp(68px, 9.5vw, 112px)',
+        lineHeight: 0.92,
+        letterSpacing: '-0.04em',
+        color: 'var(--g-text)',
+        position: 'relative', zIndex: 1,
+        animationDelay: '0.18s',
+      }}>
+        THANK
+      </div>
+
+      {/* YOU. */}
+      <div className="ty-reveal" style={{
+        fontFamily: "'Bricolage Grotesque', sans-serif",
+        fontWeight: 800,
+        fontSize: 'clamp(68px, 9.5vw, 112px)',
+        lineHeight: 0.92,
+        letterSpacing: '-0.04em',
+        color: 'var(--g-brand)',
+        marginBottom: '40px',
+        position: 'relative', zIndex: 1,
+        animationDelay: '0.3s',
+      }}>
+        YOU.
+      </div>
+
+      {/* Hairline divider */}
+      <div className="ty-line" style={{
+        width: '260px', height: '1px',
+        background: 'var(--g-border)',
+        marginBottom: '28px',
+        animationDelay: '0.48s',
+      }} />
+
+      {/* Byline */}
+      <div className="ty-reveal" style={{
+        display: 'flex', gap: '10px', alignItems: 'center',
+        position: 'relative', zIndex: 1,
+        animationDelay: '0.6s',
+      }}>
+        <span style={{
+          fontSize: '12px', fontWeight: 700,
+          letterSpacing: '0.1em', textTransform: 'uppercase',
+          color: 'var(--g-brand)',
+        }}>Yam</span>
+        <span style={{ width: '3px', height: '3px', borderRadius: '50%', background: 'var(--g-border)', flexShrink: 0 }} />
+        <span style={{ fontSize: '12px', color: 'var(--g-muted)', letterSpacing: '0.04em' }}>April 2026</span>
+        <span style={{ width: '3px', height: '3px', borderRadius: '50%', background: 'var(--g-border)', flexShrink: 0 }} />
+        <span style={{ fontSize: '12px', color: 'var(--g-muted)', letterSpacing: '0.04em' }}>Product Manager Assignment</span>
+      </div>
+    </div>
+  );
+}
+
+function SlidePrioritization() {
+  const features = [
+    {
+      num: '1',
+      name: 'AI Editor',
+      priority: 'P0',
+      effort: 'High',
+      impact: 'High',
+      deps: 'None',
+      why: 'Directly addresses the confirmed main drop-off. Can ship as a simplified editor before templates exist and get enhanced once they are live.',
+      effortColor: '#DC2626',
+      impactColor: '#059669',
+      priorityColor: '#DC2626',
+    },
+    {
+      num: '2',
+      name: 'Template-Driven Output',
+      priority: 'P1',
+      effort: 'High',
+      impact: 'High',
+      deps: 'None',
+      why: 'Reduces the amount of editing needed in the first place. Also unlocks persona-aware AI rewrites and the template selection screen.',
+      effortColor: '#DC2626',
+      impactColor: '#059669',
+      priorityColor: '#D97706',
+    },
+    {
+      num: '3',
+      name: 'Type + Template Selection',
+      priority: 'P2',
+      effort: 'Medium',
+      impact: 'High',
+      deps: 'Template-Driven Output',
+      why: 'The selection screen only makes sense once templates exist. Users need to see what they are choosing before committing to one.',
+      effortColor: '#D97706',
+      impactColor: '#059669',
+      priorityColor: '#6B7280',
+    },
+    {
+      num: '4',
+      name: 'Smart Capture Bar',
+      priority: 'P3',
+      effort: 'Medium',
+      impact: 'Medium',
+      deps: 'None',
+      why: 'Independent of the template system. Addresses a secondary friction point. Ships last since the editor drop-off is the bigger problem.',
+      effortColor: '#D97706',
+      impactColor: '#D97706',
+      priorityColor: '#6B7280',
+    },
+  ];
+
+  return (
+    <div className="pres-content-wrap" style={{ gap: '28px' }}>
+      <div>
+        <h2 className="pres-title">Prioritization and Dependencies</h2>
+        <p className="pres-subtitle" style={{ marginTop: '8px' }}>AI Editor ships first because it directly fixes the confirmed main drop-off. Templates come second, unlocking the selection screen and enhanced AI rewrites.</p>
+      </div>
+
+      {/* Feature table */}
+      <div style={{ background: 'white', border: '1px solid var(--g-border)', borderRadius: '14px', overflow: 'hidden' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: '32px 2fr 60px 80px 80px 1fr', padding: '10px 20px', background: '#F9FAFB', borderBottom: '1px solid var(--g-border)', gap: '16px' }}>
+          {['#', 'Feature', 'Priority', 'Effort', 'Impact', 'Dependency'].map(h => (
+            <div key={h} style={{ fontSize: '12px', fontWeight: 700, color: 'var(--g-muted)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>{h}</div>
+          ))}
+        </div>
+        {features.map(({ num, name, priority, effort, impact, deps, why, effortColor, impactColor, priorityColor }, i) => (
+          <div key={name} style={{ display: 'grid', gridTemplateColumns: '32px 2fr 60px 80px 80px 1fr', padding: '16px 20px', borderBottom: i < features.length - 1 ? '1px solid var(--g-border)' : 'none', gap: '16px', alignItems: 'start' }}>
+            <div style={{ fontWeight: 800, fontSize: '18px', color: '#E5E7EB' }}>{num}</div>
             <div>
-              <div style={{ fontSize: '16px', color: 'var(--pres-blue)', fontWeight: 700 }}>Our Goal</div>
-              <div className="pres-metric-huge">30%+ <span style={{ fontSize: '24px', fontWeight: 500 }}>(Double)</span></div>
+              <div style={{ fontWeight: 700, fontSize: '16px', color: '#111827', marginBottom: '3px' }}>{name}</div>
+              <div style={{ fontSize: '13px', color: 'var(--g-muted)', lineHeight: 1.5 }}>{why}</div>
             </div>
+            <div style={{ fontWeight: 800, fontSize: '15px', color: priorityColor }}>{priority}</div>
+            <div style={{ fontWeight: 700, fontSize: '14px', color: effortColor }}>{effort}</div>
+            <div style={{ fontWeight: 700, fontSize: '14px', color: impactColor }}>{impact}</div>
+            <div style={{ fontSize: '14px', color: deps === 'None' ? '#059669' : deps.startsWith('Partial') ? '#D97706' : '#6B7280', fontWeight: deps === 'None' ? 600 : 400 }}>{deps}</div>
           </div>
-        </div>
-
-        <div className="pres-cards-row">
-          <div className="pres-card">
-            <div className="pres-tag green" style={{ marginBottom: '12px' }}>🛡️ SAFETY METRICS</div>
-            <ul className="pres-list" style={{ marginTop: '12px', fontSize: '18px' }}>
-              <li className="pres-list-item">People installing the app should not drop</li>
-              <li className="pres-list-item">People finishing videos should not drop</li>
-              <li className="pres-list-item">Support tickets should not go up</li>
-            </ul>
-          </div>
-          <div className="pres-card">
-            <div className="pres-tag purple" style={{ marginBottom: '12px' }}>📊 OTHER METRICS</div>
-            <ul className="pres-list" style={{ marginTop: '12px', fontSize: '18px' }}>
-              <li className="pres-list-item">Are users happy with their videos?</li>
-              <li className="pres-list-item">How many users buy the Pro plan?</li>
-              <li className="pres-list-item">Do users come back to create a second video?</li>
-            </ul>
-          </div>
-        </div>
+        ))}
       </div>
     </div>
   );
 }
 
-function Slide16Roadmap() {
-  return (
-    <div className="pres-content-wrap">
-      <h2 className="pres-title">Launch Plan</h2>
-
-      <div className="pres-timeline" style={{ marginTop: '60px' }}>
-        <div className="pres-timeline-node">
-          <div className="pres-timeline-line">
-            <div className="pres-timeline-dot" style={{ background: 'var(--pres-blue)' }} />
-          </div>
-          <h3 className="pres-card-title">1. Test Ideas</h3>
-          <div className="pres-tag blue">Weeks 1-2</div>
-          <ul className="pres-list" style={{ fontSize: '18px' }}>
-            <li className="pres-list-item">Talk to real users</li>
-            <li className="pres-list-item">Look at competitors</li>
-            <li className="pres-list-item">Check our own data</li>
-          </ul>
-        </div>
-
-        <div className="pres-timeline-node">
-          <div className="pres-timeline-line">
-            <div className="pres-timeline-dot" style={{ background: 'var(--pres-blue)' }} />
-          </div>
-          <h3 className="pres-card-title">2. Build</h3>
-          <div className="pres-tag blue">Weeks 3-5</div>
-          <ul className="pres-list" style={{ fontSize: '18px' }}>
-            <li className="pres-list-item">Code the new flow</li>
-            <li className="pres-list-item">Test with a small group</li>
-            <li className="pres-list-item">Fix small bugs</li>
-          </ul>
-        </div>
-
-        <div className="pres-timeline-node">
-          <div className="pres-timeline-line">
-            <div className="pres-timeline-dot" style={{ background: 'var(--pres-green)' }} />
-          </div>
-          <h3 className="pres-card-title">3. Launch</h3>
-          <div className="pres-tag green">Weeks 6-8</div>
-          <ul className="pres-list" style={{ fontSize: '18px' }}>
-            <li className="pres-list-item">Test with half our users</li>
-            <li className="pres-list-item">Check if success goes up</li>
-            <li className="pres-list-item">Release to everyone</li>
-          </ul>
-        </div>
-
-        <div className="pres-timeline-node">
-          <div className="pres-timeline-line">
-            <div className="pres-timeline-dot" style={{ background: 'var(--pres-purple)' }} />
-          </div>
-          <h3 className="pres-card-title">4. Expand</h3>
-          <div className="pres-tag purple">Later</div>
-          <ul className="pres-list" style={{ fontSize: '18px' }}>
-            <li className="pres-list-item">Make the dashboard better</li>
-            <li className="pres-list-item">Add more integrations</li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-function Slide17Risks() {
-  return (
-    <div className="pres-content-wrap centered">
-      <h2 className="pres-title">Risks and Solutions</h2>
-
-      <div className="pres-grid-2x2" style={{ marginTop: '30px' }}>
-        <div className="pres-card glass" style={{ textAlign: 'left' }}>
-          <div className="pres-card-accent-left" style={{ background: 'var(--pres-amber)' }} />
-          <h3 className="pres-card-title">Asking users first adds steps</h3>
-          <p className="pres-card-body"><strong>Risk:</strong> Users might be lazy and give up.</p>
-          <p className="pres-card-body"><strong>Fix:</strong> Add a "Skip" button. If users hate it, we make it optional.</p>
-        </div>
-
-        <div className="pres-card glass" style={{ textAlign: 'left' }}>
-          <div className="pres-card-accent-left" style={{ background: 'var(--pres-amber)' }} />
-          <h3 className="pres-card-title">Low quality videos</h3>
-          <p className="pres-card-body"><strong>Risk:</strong> The videos we build automatically might look bad.</p>
-          <p className="pres-card-body"><strong>Fix:</strong> Start simple. Ask the user if they were happy with the final result.</p>
-        </div>
-
-        <div className="pres-card glass" style={{ textAlign: 'left' }}>
-          <div className="pres-card-accent-left" style={{ background: 'var(--pres-amber)' }} />
-          <h3 className="pres-card-title">Chrome is too small</h3>
-          <p className="pres-card-body"><strong>Risk:</strong> The live text feed might be too big for the Chrome window.</p>
-          <p className="pres-card-body"><strong>Fix:</strong> Design careful tests with our developers early.</p>
-        </div>
-
-        <div className="pres-card glass" style={{ textAlign: 'left' }}>
-          <div className="pres-card-accent-left" style={{ background: 'var(--pres-amber)' }} />
-          <h3 className="pres-card-title">Wrong user groups</h3>
-          <p className="pres-card-body"><strong>Risk:</strong> Our 3 users (Sales, Support, Marketing) might be wrong.</p>
-          <p className="pres-card-body"><strong>Fix:</strong> Add an "Other" option. Look at the data to learn what users really are.</p>
-        </div>
-      </div>
-
-      <p className="pres-subtitle" style={{ fontSize: '20px', marginTop: '30px', maxWidth: '800px', fontWeight: 600 }}>
-        The biggest risk is doing nothing. Competitors are already successfully capturing the users that we are losing.
-      </p>
-    </div>
-  );
-}
 
 function SlideTitlePrototype() {
   const navigate = useNavigate();
@@ -1650,17 +1886,18 @@ function SlideTitlePrototype() {
           marginTop: '32px',
           padding: '14px 32px',
           borderRadius: '12px',
-          background: 'rgba(255,255,255,0.12)',
-          border: '1.5px solid rgba(255,255,255,0.25)',
+          background: 'var(--g-brand)',
+          border: 'none',
           color: 'white',
           fontSize: '16px',
           fontWeight: 700,
           cursor: 'pointer',
           letterSpacing: '-0.2px',
-          transition: 'background 0.15s, border-color 0.15s',
+          boxShadow: '0 4px 16px rgba(75,123,245,0.35)',
+          transition: 'opacity 0.15s, box-shadow 0.15s',
         }}
-        onMouseEnter={e => { e.currentTarget.style.background = 'rgba(255,255,255,0.22)'; e.currentTarget.style.borderColor = 'rgba(255,255,255,0.5)'; }}
-        onMouseLeave={e => { e.currentTarget.style.background = 'rgba(255,255,255,0.12)'; e.currentTarget.style.borderColor = 'rgba(255,255,255,0.25)'; }}
+        onMouseEnter={e => { e.currentTarget.style.opacity = '0.88'; e.currentTarget.style.boxShadow = '0 6px 24px rgba(75,123,245,0.5)'; }}
+        onMouseLeave={e => { e.currentTarget.style.opacity = '1'; e.currentTarget.style.boxShadow = '0 4px 16px rgba(75,123,245,0.35)'; }}
       >
         Open Prototype →
       </button>
