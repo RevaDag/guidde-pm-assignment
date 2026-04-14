@@ -28,7 +28,6 @@ const SLIDES = [
   { type: 'assumptions', theme: 'light' },
   { type: 'title-define', theme: 'dark' },
   { type: 'personas', theme: 'light' },
-  { type: 'output-formats', theme: 'light' },
   { type: 'persona-flow', theme: 'light' },
   { type: 'title-plan', theme: 'dark' },
   { type: 'solution-features', theme: 'light' },
@@ -102,7 +101,6 @@ export default function PresentationPage() {
           {currentSlide.type === 'assumptions' && <SlideAssumptions />}
           {currentSlide.type === 'title-define' && <SectionTitle step="3" title="Define Personas" />}
           {currentSlide.type === 'personas' && <Slide11Personas />}
-          {currentSlide.type === 'output-formats' && <SlideOutputFormats />}
           {currentSlide.type === 'persona-flow' && <SlidePersonaFlow />}
           {currentSlide.type === 'title-plan' && <SectionTitle step="4" title="Plan Solution" />}
           {currentSlide.type === 'solution-features' && <SlideSolutionFeatures />}
@@ -786,52 +784,58 @@ function Slide13Solution() {
   );
 }
 
-function SlideOutputFormats() {
-  const personas = [
+function SlidePersonaFlow() {
+  const cols = [
     {
-      icon: '💬', name: 'Support', color: 'var(--pres-blue)',
-      selects: 'Training Guide · How-To Tutorial · SOP',
-      gets: 'Steps auto-transcribed into a clean annotated text guide — structured, searchable, ready to publish to a help center.',
+      icon: '💬', name: 'Support', color: 'var(--pres-blue)', colorHex: '#4B7BF5',
+      selects: 'Help Article',
+      gets: 'Steps auto-transcribed into a clean annotated text guide — structured, searchable, ready to publish.',
       detail: ['Auto-transcribed step text', 'Annotated screenshot per step', 'Numbered callout overlays'],
     },
     {
-      icon: '🎯', name: 'Sales', color: 'var(--pres-purple)',
-      selects: 'Product Demo',
-      gets: 'Branded, narrated screen recording — company logo and colours applied automatically, shareable via link or email in one click.',
+      icon: '🎯', name: 'Sales', color: 'var(--pres-purple)', colorHex: '#8B5CF6',
+      selects: 'Demo Video',
+      gets: 'Branded, narrated screen recording — logo and colours applied automatically, shareable in one click.',
       detail: ['Brand kit auto-applied', 'Narration layer', 'Shareable video link'],
     },
     {
-      icon: '✨', name: 'Marketing', color: 'var(--pres-amber)',
-      selects: 'Knowledge Base Article',
-      gets: 'Embeddable click-through demo — visitors explore the product at their own pace with zero developer effort required.',
+      icon: '✨', name: 'Marketing', color: 'var(--pres-amber)', colorHex: '#D97706',
+      selects: 'Interactive Demo',
+      gets: 'Embeddable click-through demo — visitors explore at their own pace with zero developer effort.',
       detail: ['Click hotspot overlay', 'Embed code generated', 'No dev work required'],
     },
   ];
 
+  const rows = [
+    { label: 'Editor default', support: 'Step text + captions front & center', sales: 'Video timeline + brand kit panel', marketing: 'Article layout + SEO hints' },
+    { label: 'AI chat chips',  support: 'Clean up captions · Add a callout · Simplify language · Number the steps', sales: 'Add company logo · Apply brand colors · Trim dead air · Add narration', marketing: 'Add a hotspot · Make interactive · Add a tooltip · Prepare for embed' },
+    { label: 'Export format',  support: 'Help Center article', sales: 'Shareable video link', marketing: 'Embeddable interactive tour' },
+  ];
+
+  const rowValues = (row) => [row.support, row.sales, row.marketing];
+
   return (
-    <div className="pres-content-wrap" style={{ gap: '32px' }}>
+    <div className="pres-content-wrap" style={{ gap: '24px' }}>
       <div>
-        <h2 className="pres-title">The Right Output for Each Persona</h2>
-        <p className="pres-subtitle" style={{ marginTop: '12px' }}>One tool — three distinct outputs, each perfectly matched to how the persona uses content</p>
+        <h2 className="pres-title">The Right Output — How the Experience Adapts</h2>
+        <p className="pres-subtitle" style={{ marginTop: '12px' }}>One tool — three distinct outputs, each with a purpose-built editor</p>
       </div>
 
-      <div className="pres-cards-row">
-        {personas.map(({ icon, name, color, selects, gets, detail }) => (
-          <div key={name} className="pres-card" style={{ padding: '32px', gap: '20px' }}>
-            <div className="pres-card-accent-top" style={{ background: color }} />
-            <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-              <span style={{ fontSize: '28px' }}>{icon}</span>
-              <span style={{ fontFamily: "'Bricolage Grotesque',sans-serif", fontWeight: 700, fontSize: '22px', color: 'var(--pres-text-dark)' }}>{name}</span>
+      {/* Column headers with output description */}
+      <div style={{ display: 'grid', gridTemplateColumns: '140px 1fr 1fr 1fr', gap: '14px', alignItems: 'stretch' }}>
+        <div />
+        {cols.map(({ icon, name, color, colorHex, selects, gets, detail }) => (
+          <div key={name} style={{ padding: '16px 18px', background: 'var(--pres-bg-light)', borderRadius: '14px', border: `1.5px solid ${colorHex}22`, display: 'flex', flexDirection: 'column', gap: '8px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+              <span style={{ fontSize: '20px' }}>{icon}</span>
+              <span style={{ fontFamily: "'Bricolage Grotesque',sans-serif", fontWeight: 700, fontSize: '17px', color: 'var(--pres-text-dark)' }}>{name}</span>
+              <span style={{ marginLeft: 'auto', fontSize: '11px', fontWeight: 700, color, background: `${colorHex}14`, borderRadius: '99px', padding: '2px 8px', whiteSpace: 'nowrap' }}>{selects}</span>
             </div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-              <span style={{ fontSize: '13px', color: 'var(--pres-text-muted)' }}>They select</span>
-              <span style={{ fontWeight: 700, fontSize: '15px', background: 'rgba(75,123,245,0.09)', color: 'var(--pres-blue)', borderRadius: '8px', padding: '4px 12px' }}>{selects}</span>
-            </div>
-            <p className="pres-card-body" style={{ fontSize: '17px' }}>{gets}</p>
-            <div style={{ borderTop: '1px solid var(--pres-border)', paddingTop: '16px', display: 'flex', flexDirection: 'column', gap: '8px' }}>
+            <p style={{ fontSize: '13px', color: 'var(--pres-text-muted)', lineHeight: 1.45, margin: 0 }}>{gets}</p>
+            <div style={{ borderTop: `1px solid ${colorHex}18`, paddingTop: '8px', display: 'flex', flexDirection: 'column', gap: '4px' }}>
               {detail.map(d => (
-                <div key={d} style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '14px', color: 'var(--pres-text-muted)' }}>
-                  <div style={{ width: '6px', height: '6px', borderRadius: '50%', background: color, flexShrink: 0 }} />
+                <div key={d} style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '12px', color: 'var(--pres-text-muted)' }}>
+                  <div style={{ width: '5px', height: '5px', borderRadius: '50%', background: color, flexShrink: 0 }} />
                   {d}
                 </div>
               ))}
@@ -839,58 +843,14 @@ function SlideOutputFormats() {
           </div>
         ))}
       </div>
-    </div>
-  );
-}
-
-function SlidePersonaFlow() {
-  const rows = [
-    { label: 'Content types',  support: 'Training Guide · How-To Tutorial · SOP', sales: 'Product Demo', marketing: 'Knowledge Base Article' },
-    { label: 'Editor default', support: 'Step text + captions front & center', sales: 'Video timeline + brand kit panel', marketing: 'Article layout + SEO hints' },
-    { label: 'AI chat chips',  support: 'Clean up captions · Add a callout · Simplify language · Number the steps', sales: 'Add company logo · Apply brand colors · Trim dead air · Add narration', marketing: 'Add a hotspot · Make interactive · Add a tooltip · Prepare for embed' },
-    { label: 'Export format',  support: 'Help Center article', sales: 'Shareable video link', marketing: 'Embeddable interactive tour' },
-  ];
-
-  const colStyle = (color) => ({
-    flex: 1, padding: '20px 24px', background: 'white',
-    borderRadius: '14px', border: `1.5px solid ${color}22`,
-    boxShadow: '0 2px 12px rgba(26,31,54,0.07)',
-  });
-
-  return (
-    <div className="pres-content-wrap" style={{ gap: '32px' }}>
-      <div>
-        <h2 className="pres-title">How the Experience Adapts</h2>
-        <p className="pres-subtitle" style={{ marginTop: '12px' }}>After selecting their goal, each persona gets a purpose-built editor — not a blank canvas</p>
-      </div>
-
-      {/* Column headers */}
-      <div style={{ display: 'grid', gridTemplateColumns: '160px 1fr 1fr 1fr', gap: '16px', alignItems: 'end' }}>
-        <div />
-        {[
-          { icon: '💬', name: 'Support', selects: 'Help Article', color: 'var(--pres-blue)' },
-          { icon: '🎯', name: 'Sales', selects: 'Demo Video', color: 'var(--pres-purple)' },
-          { icon: '✨', name: 'Marketing', selects: 'Interactive Demo', color: 'var(--pres-amber)' },
-        ].map(({ icon, name, selects, color }) => (
-          <div key={name} style={{ textAlign: 'center', padding: '16px', background: 'var(--pres-bg-light)', borderRadius: '14px', border: '1.5px solid var(--pres-border)' }}>
-            <div style={{ fontSize: '24px' }}>{icon}</div>
-            <div style={{ fontFamily: "'Bricolage Grotesque',sans-serif", fontWeight: 700, fontSize: '18px', color: 'var(--pres-text-dark)', marginTop: '6px' }}>{name}</div>
-            <div style={{ fontSize: '13px', color, fontWeight: 600, marginTop: '4px' }}>"{selects}"</div>
-          </div>
-        ))}
-      </div>
 
       {/* Rows */}
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-        {rows.map(({ label, support, sales, marketing }) => (
-          <div key={label} style={{ display: 'grid', gridTemplateColumns: '160px 1fr 1fr 1fr', gap: '16px', alignItems: 'stretch' }}>
-            <div style={{ display: 'flex', alignItems: 'center', padding: '0 8px', fontSize: '13px', fontWeight: 700, color: 'var(--pres-text-muted)', textTransform: 'uppercase', letterSpacing: '0.06em' }}>{label}</div>
-            {[
-              { text: support,   color: '#4B7BF522' },
-              { text: sales,     color: '#8B5CF622' },
-              { text: marketing, color: '#F59E0B22' },
-            ].map(({ text, color }) => (
-              <div key={text} style={{ padding: '16px 20px', background: 'white', borderRadius: '12px', border: `1.5px solid ${color}`, fontSize: '15px', color: 'var(--pres-text-dark)', lineHeight: 1.4 }}>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+        {rows.map((row) => (
+          <div key={row.label} style={{ display: 'grid', gridTemplateColumns: '140px 1fr 1fr 1fr', gap: '14px', alignItems: 'stretch' }}>
+            <div style={{ display: 'flex', alignItems: 'center', padding: '0 8px', fontSize: '12px', fontWeight: 700, color: 'var(--pres-text-muted)', textTransform: 'uppercase', letterSpacing: '0.06em' }}>{row.label}</div>
+            {rowValues(row).map((text, i) => (
+              <div key={i} style={{ padding: '14px 18px', background: 'white', borderRadius: '12px', border: `1.5px solid ${['#4B7BF5','#8B5CF6','#D97706'][i]}18`, fontSize: '14px', color: 'var(--pres-text-dark)', lineHeight: 1.4 }}>
                 {text}
               </div>
             ))}
