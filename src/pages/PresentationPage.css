@@ -1,0 +1,599 @@
+/* ============================================================
+   PresentationPage — Guidde PM Editorial Redesign
+   ============================================================ */
+
+/* ── Design Tokens ── */
+.pres-root {
+  /* Guidde Brand (extracted from guidde.com) */
+  --g-brand:        #4B7BF5;
+  --g-brand-dim:    rgba(75, 123, 245, 0.12);
+  --g-brand-glow:   rgba(75, 123, 245, 0.28);
+  --g-navy:         #1A1F36;
+  --g-navy-surface: #222843;
+  --g-navy-card:    rgba(255,255,255,0.06);
+  --g-navy-border:  rgba(255,255,255,0.10);
+  --g-surface:      #F7F8FC;
+  --g-white:        #FFFFFF;
+  --g-text:         #1A1F36;
+  --g-muted:        #6B7294;
+  --g-border:       #E5E7EB;
+  --g-shadow-sm:    0 2px 12px rgba(26, 31, 54, 0.08);
+  --g-shadow-md:    0 4px 24px rgba(26, 31, 54, 0.12);
+  --g-shadow-lg:    0 12px 48px rgba(26, 31, 54, 0.16);
+  --g-green:        #34D399;
+  --g-amber:        #F59E0B;
+  --g-red:          #EF4444;
+
+  /* Legacy aliases (keep inline styles working) */
+  --pres-blue:       var(--g-brand);
+  --pres-dark-navy:  var(--g-navy);
+  --pres-bg-light:   var(--g-surface);
+  --pres-white:      var(--g-white);
+  --pres-text-dark:  var(--g-text);
+  --pres-text-muted: var(--g-muted);
+  --pres-green:      var(--g-green);
+  --pres-amber:      var(--g-amber);
+  --pres-red:        var(--g-red);
+  --pres-purple:     #8B5CF6;
+  --pres-border:     var(--g-border);
+  --pres-shadow:     var(--g-shadow-sm);
+}
+
+/* ── Root Shell ── */
+.pres-root {
+  position: fixed;
+  inset: 0;
+  font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── Progress Bar ── */
+.pres-progress-track {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  z-index: 200;
+  background: transparent;
+}
+.pres-progress-fill {
+  height: 100%;
+  background: var(--g-brand);
+  transition: width 0.35s cubic-bezier(0.4,0,0.2,1);
+}
+
+/* ── Prototype Button ── */
+.pres-prototype-btn {
+  position: fixed;
+  top: 14px;
+  right: 20px;
+  z-index: 300;
+  padding: 7px 16px;
+  border-radius: 8px;
+  border: 1.5px solid var(--g-brand);
+  background: transparent;
+  color: var(--g-brand);
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  cursor: pointer;
+  transition: background 0.18s, color 0.18s, box-shadow 0.18s;
+}
+.pres-prototype-btn:hover {
+  background: var(--g-brand);
+  color: #fff;
+  box-shadow: 0 2px 12px var(--g-brand-glow);
+}
+
+/* ── Viewport ── */
+.pres-viewport {
+  flex: 1;
+  position: relative;
+  overflow: hidden;
+}
+
+/* ── Slide ── */
+.pres-slide {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 56px 48px 88px;   /* bottom pad clears nav bar */
+  box-sizing: border-box;
+  overflow-y: auto;
+  overflow-x: hidden;
+  scroll-behavior: smooth;
+  animation: presFadeIn 0.32s cubic-bezier(0.4,0,0.2,1) both;
+}
+
+/* vertical centering when content is shorter than viewport */
+.pres-slide::before { content: ''; flex: 1; }
+.pres-slide > *     { flex-shrink: 0; }
+.pres-slide::after  { content: ''; flex: 1; }
+
+@keyframes presFadeIn {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── Backgrounds ── */
+.pres-bg-dark {
+  background: var(--g-navy);
+  color: var(--g-white);
+}
+
+/* Radial violet glow + subtle dot-grid texture */
+.pres-bg-dark::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background:
+    radial-gradient(ellipse 80% 60% at 50% 40%, rgba(75,123,245,0.16) 0%, transparent 70%),
+    radial-gradient(ellipse 40% 40% at 10% 90%, rgba(75,123,245,0.07) 0%, transparent 60%);
+}
+.pres-bg-dark::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background-image: radial-gradient(rgba(255,255,255,0.045) 1px, transparent 1px);
+  background-size: 28px 28px;
+}
+.pres-bg-dark .pres-slide { position: relative; z-index: 1; }
+
+.pres-bg-light {
+  background: var(--g-surface);
+  color: var(--g-text);
+}
+
+/* ── Nav hints ── */
+.pres-nav-hints {
+  position: fixed;
+  bottom: 22px;
+  left: 28px;
+  display: flex;
+  gap: 8px;
+  z-index: 100;
+}
+.pres-nav-btn {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(128,128,160,0.3);
+  background: rgba(255,255,255,0.06);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  color: inherit;
+  opacity: 0.6;
+  font-size: 16px;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: opacity 0.15s, border-color 0.15s, background 0.15s;
+}
+.pres-nav-btn:hover:not(:disabled) {
+  opacity: 1;
+  border-color: var(--g-brand);
+  background: var(--g-brand-dim);
+}
+.pres-nav-btn:disabled { opacity: 0.2; cursor: not-allowed; }
+
+/* ── Scrubber (bottom center) ── */
+.pres-dots {
+  position: fixed;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 100;
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+/* ── Counter ── */
+.pres-counter {
+  position: fixed;
+  bottom: 28px;
+  right: 28px;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  opacity: 0.45;
+  z-index: 100;
+  font-variant-numeric: tabular-nums;
+  font-family: 'DM Sans', sans-serif;
+}
+.pres-bg-dark  .pres-counter { color: white; }
+.pres-bg-light .pres-counter { color: var(--g-text); }
+
+/* ── Content Wrapper ── */
+.pres-content-wrap {
+  width: 100%;
+  max-width: 1160px;
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+.pres-content-wrap.centered {
+  align-items: center;
+  text-align: center;
+}
+
+/* ── Typography ── */
+.pres-title {
+  font-family: 'Bricolage Grotesque', sans-serif;
+  font-size: clamp(44px, 5.2vw, 72px);
+  font-weight: 800;
+  line-height: 1.12;
+  letter-spacing: -0.02em;
+  margin: 0;
+}
+.pres-bg-dark  .pres-title { color: var(--g-white); }
+.pres-bg-light .pres-title { color: var(--g-text); }
+
+.pres-subtitle {
+  font-size: clamp(18px, 2vw, 22px);
+  font-weight: 400;
+  line-height: 1.55;
+  margin: 0;
+}
+.pres-bg-dark  .pres-subtitle { color: rgba(255,255,255,0.7); }
+.pres-bg-light .pres-subtitle { color: var(--g-muted); }
+
+/* ── Cards ── */
+.pres-cards-row {
+  display: flex;
+  gap: 20px;
+  width: 100%;
+  flex-wrap: wrap;
+}
+.pres-cards-row > * { flex: 1; min-width: min(100%, 280px); }
+
+.pres-cards-col {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 100%;
+}
+
+.pres-card {
+  background: var(--g-white);
+  border-radius: 18px;
+  box-shadow: var(--g-shadow-md);
+  padding: 36px 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  flex: 1;
+  border: 1.5px solid var(--g-border);
+  position: relative;
+  overflow: hidden;
+  color: var(--g-text);
+}
+.pres-card.shadow { box-shadow: var(--g-shadow-lg); }
+
+.pres-card.glass {
+  background: var(--g-navy-card);
+  border: 1.5px solid var(--g-navy-border);
+  box-shadow: none;
+  color: var(--g-white);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+.pres-card.muted {
+  background: #f0f1f9;
+  border: 1.5px solid var(--g-border);
+  box-shadow: none;
+}
+.pres-card.highlight {
+  border: 2px solid var(--g-brand);
+  box-shadow: 0 0 0 4px var(--g-brand-dim), var(--g-shadow-md);
+}
+
+.pres-card-accent-left {
+  position: absolute;
+  top: 0; bottom: 0; left: 0;
+  width: 5px;
+  border-radius: 5px 0 0 5px;
+}
+.pres-card-accent-top {
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 5px;
+  border-radius: 18px 18px 0 0;
+}
+
+.pres-card-title {
+  font-family: 'Bricolage Grotesque', sans-serif;
+  font-size: clamp(20px, 2vw, 26px);
+  font-weight: 700;
+  margin: 0;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+}
+.pres-card-body {
+  font-size: clamp(16px, 1.5vw, 20px);
+  line-height: 1.65;
+  color: var(--g-muted);
+  margin: 0;
+}
+.pres-card.glass .pres-card-body { color: rgba(255,255,255,0.75); }
+.pres-card.glass .pres-card-title { color: var(--g-white); }
+
+/* ── Tags ── */
+.pres-tag {
+  display: inline-flex;
+  align-items: center;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  padding: 5px 14px;
+  border-radius: 99px;
+  background: #edeef8;
+  color: var(--g-muted);
+  width: fit-content;
+  font-family: 'DM Sans', sans-serif;
+}
+.pres-tag.blue   { background: var(--g-brand-dim); color: var(--g-brand); }
+.pres-tag.purple { background: rgba(139,92,246,0.10); color: #8B5CF6; }
+.pres-tag.amber  { background: rgba(245,158,11,0.12); color: #b45309; }
+.pres-tag.green  { background: rgba(34,197,94,0.12);  color: #16a34a; }
+
+/* ── Section Title Slides ── */
+.pres-section-title-wrap {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 28px;
+  min-height: 60vh;
+  text-align: center;
+  width: 100%;
+  max-width: 1000px;
+}
+
+.pres-section-ghost-num {
+  font-family: 'Bricolage Grotesque', sans-serif;
+  font-size: clamp(180px, 22vw, 300px);
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -0.04em;
+  color: rgba(75,123,245,0.10);
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  user-select: none;
+  white-space: nowrap;
+}
+
+.pres-section-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 8px 20px;
+  border-radius: 99px;
+  background: var(--g-brand-dim);
+  color: var(--g-brand);
+  border: 1.5px solid rgba(75,123,245,0.3);
+  position: relative;
+  z-index: 1;
+}
+
+.pres-section-badge::before {
+  content: '';
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--g-brand);
+}
+
+.pres-section-title {
+  font-family: 'Bricolage Grotesque', sans-serif;
+  font-size: clamp(56px, 8vw, 108px);
+  font-weight: 800;
+  line-height: 1.0;
+  letter-spacing: -0.03em;
+  color: var(--g-white);
+  margin: 0;
+  position: relative;
+  z-index: 1;
+}
+
+/* ── Footer Text ── */
+.pres-footer-text {
+  font-size: 16px;
+  color: rgba(255,255,255,0.5);
+  letter-spacing: 0.02em;
+}
+
+/* ── Lists ── */
+.pres-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  list-style: none;
+  padding: 0; margin: 0;
+}
+.pres-list-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  font-size: clamp(17px, 1.6vw, 21px);
+  line-height: 1.55;
+}
+
+/* ── Number Circle ── */
+.pres-num-circle {
+  width: 48px;
+  height: 48px;
+  background: var(--g-white);
+  border: 2px solid var(--g-brand);
+  color: var(--g-brand);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  font-weight: 800;
+  flex-shrink: 0;
+  font-family: 'Bricolage Grotesque', sans-serif;
+}
+
+/* ── Friction Image ── */
+.pres-friction-image {
+  width: 100%;
+  max-width: 900px;
+  max-height: 52vh;
+  margin: 0 auto;
+  object-fit: contain;
+  border-radius: 12px;
+  box-shadow: var(--g-shadow-md);
+}
+
+/* ── Callout ── */
+.pres-callout {
+  background: rgba(245,158,11,0.08);
+  border: 1.5px solid rgba(245,158,11,0.25);
+  padding: 28px 32px;
+  border-radius: 16px;
+  font-size: clamp(17px, 1.6vw, 20px);
+  line-height: 1.65;
+  color: var(--g-text);
+}
+
+/* ── Metric Huge ── */
+.pres-metric-huge {
+  font-family: 'Bricolage Grotesque', sans-serif;
+  font-size: clamp(64px, 8vw, 96px);
+  font-weight: 800;
+  color: var(--g-brand);
+  line-height: 1;
+  letter-spacing: -0.03em;
+  margin: 8px 0;
+}
+
+/* ── Funnel ── */
+.pres-funnel {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+}
+.pres-funnel-bar {
+  height: 60px;
+  background: var(--g-brand);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  padding: 0 28px;
+  color: white;
+  font-weight: 700;
+  font-size: clamp(16px, 1.5vw, 20px);
+  position: relative;
+  transition: width 0.8s cubic-bezier(0.4,0,0.2,1);
+}
+.pres-funnel-bar.drop { background: var(--g-red); }
+
+/* ── Timeline ── */
+.pres-timeline {
+  display: flex;
+  align-items: stretch;
+  gap: 20px;
+  width: 100%;
+  flex-wrap: wrap;
+}
+.pres-timeline-node {
+  flex: 1;
+  min-width: 180px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.pres-timeline-line {
+  height: 5px;
+  background: var(--g-border);
+  border-radius: 3px;
+  width: 100%;
+  position: relative;
+}
+.pres-timeline-dot {
+  position: absolute;
+  top: 50%; left: 0;
+  transform: translateY(-50%);
+  width: 18px; height: 18px;
+  border-radius: 50%;
+}
+
+/* ── Flow Diagram ── */
+.pres-flow-diagram {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  width: 100%;
+  align-items: center;
+}
+.pres-flow-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.pres-flow-box {
+  background: var(--g-white);
+  color: var(--g-text);
+  padding: 14px 22px;
+  border-radius: 12px;
+  font-size: clamp(15px, 1.4vw, 18px);
+  font-weight: 600;
+  border: 1.5px solid var(--g-border);
+}
+.pres-flow-box.muted    { background: #222843; border-color: #2e3555; color: #8b90b8; font-weight: 400; }
+.pres-flow-box.highlight{ background: var(--g-brand); color: white; border-color: var(--g-brand); }
+.pres-flow-arrow        { color: var(--g-muted); font-size: 20px; }
+
+/* ── Grid 2x2 ── */
+.pres-grid-2x2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  width: 100%;
+}
+
+/* ── Numbered List ── */
+.pres-numbered-list { display: flex; flex-direction: column; gap: 20px; }
+.pres-num-item      { display: flex; align-items: flex-start; gap: 16px; }
+
+/* ── 2-col grid ── */
+.pres-2cols {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+  width: 100%;
+}
+
+/* ── Responsive ── */
+@media (max-width: 900px) {
+  .pres-slide { padding: 40px 24px 80px; }
+  .pres-cards-row  { flex-direction: column; }
+  .pres-2cols      { grid-template-columns: 1fr; }
+  .pres-grid-2x2   { grid-template-columns: 1fr; }
+  .pres-timeline   { flex-direction: column; }
+}
+
+@media (max-width: 640px) {
+  .pres-slide { padding: 28px 16px 76px; }
+  .pres-friction-image { max-height: 40vh; }
+}
