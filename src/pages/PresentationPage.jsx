@@ -144,13 +144,26 @@ export default function PresentationPage() {
 
 function Slide1Title() {
   return (
-    <div className="pres-section-title-wrap" style={{ gap: '32px' }}>
-      <div className="pres-section-ghost-num" style={{ opacity: 0.07, fontSize: 'clamp(120px, 16vw, 220px)' }}>PM</div>
-      <p style={{ fontSize: '12px', fontWeight: 600, letterSpacing: '0.09em', textTransform: 'uppercase', color: 'var(--g-muted)', position: 'relative', zIndex: 1, margin: 0 }}>Product Manager Assignment · Guidde · April 2026</p>
-      <h1 className="pres-section-title" style={{ fontSize: 'clamp(52px, 7vw, 96px)', maxWidth: '900px' }}>
-        Redesigning Guidde's First Creation Experience
-      </h1>
-      <div className="pres-footer-text">Yam</div>
+    <div className="slide1-wrap">
+      <div className="slide1-header">
+        <div className="slide1-logo">guidde<span>.</span></div>
+        <div className="slide1-badge">PM Assignment</div>
+      </div>
+
+      <div className="slide1-rule" />
+
+      <div className="slide1-title-block">
+        <div className="slide1-line1">Redesigning</div>
+        <div className="slide1-line2">Guidde's First</div>
+        <div className="slide1-line3">Creation Experience</div>
+      </div>
+
+      <div className="slide1-rule slide1-rule-bottom" style={{ marginTop: '36px', marginBottom: '24px' }} />
+
+      <div className="slide1-footer">
+        <div className="slide1-date">April 2026</div>
+        <div className="slide1-author">Yam</div>
+      </div>
     </div>
   );
 }
