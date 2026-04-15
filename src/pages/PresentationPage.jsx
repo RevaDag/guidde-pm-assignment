@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './PresentationPage.css';
 
@@ -84,10 +84,10 @@ export default function PresentationPage() {
           {currentSlide.type === 'scope' && <Slide2Scope />}
           {currentSlide.type === 'steps' && <Slide3Steps />}
           {currentSlide.type === 'title-review' && <SectionTitle step="1" title="Review App" />}
-          {currentSlide.type === 'onboarding1' && <OnboardingSlide num="1" title="Setup Workspace Name" description="The very first step after I register asks me to select and define my workspace name to personalize my environment. It feels welcoming." imagePath="/images/1.png" psychLevel={60} psychChange={+10} />}
-          {currentSlide.type === 'onboarding2' && <OnboardingSlide num="2" title="Company Details" description="I'm asked about my company size and role. It feels less like personalization and more like a lead-scoring form. The sales intent is a bit too visible." imagePath="/images/2.png" psychLevel={55} psychChange={-5} />}
-          {currentSlide.type === 'onboarding3' && <OnboardingSlide num="3" title="User Intent" description="The wizard asks exactly what I want to do with Guidde. This is a crucial step that makes me feel understood regarding my primary goals." imagePath="/images/3.png" psychLevel={60} psychChange={+5} />}
-          {currentSlide.type === 'onboarding4' && <OnboardingSlide num="4" title="Brand Kit" description="I'm introduced to the Brand Kit. It automatically scans my website to pull my brand colors and logos, completely removing the need for manual setup! This is mind-blowing." imagePath="/images/4.png" psychLevel={75} psychChange={+15} />}
+          {currentSlide.type === 'onboarding1' && <OnboardingSlide num="1" title="Setup Workspace Name" description={<>I set my <strong>workspace name</strong>. Simple first step, feels <strong>welcoming</strong>.</>} imagePath="/images/1.png" psychLevel={60} psychChange={+10} />}
+          {currentSlide.type === 'onboarding2' && <OnboardingSlide num="2" title="Company Details" description={<>They ask for <strong>company size and role</strong>. Feels more like a <strong>sales form</strong> than setup.</>} imagePath="/images/2.png" psychLevel={55} psychChange={-5} />}
+          {currentSlide.type === 'onboarding3' && <OnboardingSlide num="3" title="User Intent" description={<>They ask <strong>what I want to do with Guidde</strong>. A <strong>crucial step</strong>. Finally feels like they <strong>get me</strong>.</>} imagePath="/images/3.png" psychLevel={60} psychChange={+5} />}
+          {currentSlide.type === 'onboarding4' && <OnboardingSlide num="4" title="Brand Kit" description={<><strong>Brand Kit</strong> scans my website and pulls my <strong>colors and logo automatically</strong>. No manual setup. <strong>Mind-blowing</strong>.</>} imagePath="/images/4.png" psychLevel={75} psychChange={+15} />}
           {currentSlide.type === 'friction1' && <Slide4Friction1 />}
           {currentSlide.type === 'friction2' && <Slide5Friction2 />}
           {currentSlide.type === 'friction3' && <Slide6Friction3 />}
@@ -146,7 +146,7 @@ function Slide1Title() {
   return (
     <div className="pres-section-title-wrap" style={{ gap: '32px' }}>
       <div className="pres-section-ghost-num" style={{ opacity: 0.07, fontSize: 'clamp(120px, 16vw, 220px)' }}>PM</div>
-      <div className="pres-section-badge">Product Manager Assignment · Guidde · April 2026</div>
+      <p style={{ fontSize: '12px', fontWeight: 600, letterSpacing: '0.09em', textTransform: 'uppercase', color: 'var(--g-muted)', position: 'relative', zIndex: 1, margin: 0 }}>Product Manager Assignment · Guidde · April 2026</p>
       <h1 className="pres-section-title" style={{ fontSize: 'clamp(52px, 7vw, 96px)', maxWidth: '900px' }}>
         Redesigning Guidde's First Creation Experience
       </h1>
@@ -198,12 +198,11 @@ function Slide2Scope() {
       }}>
         <span style={{ fontSize: '11px', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--g-muted)', whiteSpace: 'nowrap' }}>Out of scope</span>
         <div style={{ width: '1px', height: '18px', background: 'var(--g-border)', flexShrink: 0 }} />
-        {outScope.map(item => (
-          <span key={item} style={{
-            fontSize: '14px', fontWeight: 500, color: 'var(--g-muted)',
-            background: 'white', border: '1.5px solid var(--g-border)',
-            borderRadius: '99px', padding: '4px 14px',
-          }}>{item}</span>
+        {outScope.map((item, i) => (
+          <React.Fragment key={item}>
+            {i > 0 && <span style={{ color: 'var(--g-border)', fontSize: '16px', userSelect: 'none', lineHeight: 1 }}>·</span>}
+            <span style={{ fontSize: '14px', fontWeight: 500, color: 'var(--g-muted)' }}>{item}</span>
+          </React.Fragment>
         ))}
       </div>
     </div>
@@ -214,7 +213,7 @@ function Slide3Steps() {
   return (
     <div className="pres-content-wrap centered">
       <h2 className="pres-title">Time Management (4 Hours)</h2>
-      <h3 className="pres-subtitle">How I split my time to solve this assignment</h3>
+      <h3 className="pres-subtitle">How I split 4 hours</h3>
 
       <div className="pres-card" style={{ marginTop: '50px', display: 'inline-block', textAlign: 'left', padding: '40px 60px' }}>
         <ul className="pres-list" style={{ fontSize: '24px', gap: '24px' }}>
@@ -359,10 +358,10 @@ function OnboardingSlide({ num, title, description, imagePath, psychLevel, psych
 function Slide4Friction1() {
   return <FrictionLayout
     num="5"
-    title="New dashboard, unfamiliar UI, install popup"
-    experience="The wizard ends and drops me into a dashboard I've never seen before. Before I can figure out where I am, a popup is already asking me to install the browser extension."
-    description="I've just finished onboarding but now I'm looking at a completely unfamiliar product UI. Before I can even orient myself, a modal blocks the screen asking me to download the browser extension. I haven't learned the dashboard yet, and I'm already being pushed to install something external."
-    recommendation="The guide should not stop until the extension is fully installed and used at least once. Walk the user through the whole install from inside the wizard. Don't drop them off halfway."
+    title="Dropped into an unfamiliar dashboard"
+    experience={<>The wizard ends. I'm on a <strong>dashboard I've never seen</strong>, and a popup is already pushing me to <strong>install the extension</strong>.</>}
+    description={<>I just finished setup but don't know where I am. Before I can look around, <strong>a modal blocks the screen</strong> asking me to install the extension. I'm being pushed forward before I'm ready.</>}
+    recommendation="Don't end the wizard until the extension is installed and used. Walk them all the way through."
     principle="Keep the user moving forward"
     imagePath="/images/5.png"
     psychLevel={65}
@@ -374,8 +373,8 @@ function Slide5Friction2() {
   return <FrictionLayout
     num="6"
     title="A pricing popup kills the momentum"
-    experience="Right as I'm about to click the extension and start recording, a pricing popup blocks the screen."
-    recommendation="Hide pricing until the user has created and shared their first Guidde. Interrupting at this exact moment is the worst possible time."
+    experience={<>Right as I'm about to click the extension and start recording, <strong>a pricing popup blocks the screen</strong>.</>}
+    recommendation="Hide pricing until they've shared their first Guidde. This is the worst moment to interrupt."
     principle="Don't break the user's flow"
     imagePath="/images/6.png"
     psychLevel={55}
@@ -387,8 +386,8 @@ function Slide6Friction3() {
   return <FrictionLayout
     num="7"
     title="The Chrome permission warning is scary"
-    experience="Chrome warns me this extension can read all data on websites I visit. I pause. That sounds way scarier than I expected."
-    recommendation="Add a short note before installation saying: We need this permission to record your screen. That way Chrome's warning feels expected, not alarming."
+    experience={<>Chrome warns me this extension can <strong>read all data on websites I visit</strong>. I pause. That sounds <strong>way scarier than I expected</strong>.</>}
+    recommendation="Add one line before install: 'We need this to record your screen.' Then Chrome's warning won't come as a shock."
     principle="Build trust before Chrome asks"
     imagePath="/images/9.png"
     psychLevel={35}
@@ -406,7 +405,7 @@ function SlideFrictionContentType() {
           <h2 className="pres-title" style={{ fontSize: '40px' }}>"What are you creating?" with no context to go on</h2>
         </div>
 
-        <p className="pres-card-body" style={{ fontSize: '20px', maxWidth: '800px', marginBottom: '8px' }}>The extension asks me to pick a content type before I record anything. I choose one, but I've never seen what any of these options actually produce.</p>
+        <p className="pres-card-body" style={{ fontSize: '20px', maxWidth: '800px', marginBottom: '8px' }}>I have to <strong>pick a content type</strong> before I've seen what <strong>any of them actually look like</strong>.</p>
 
         <div style={{ display: 'flex', justifyContent: 'center' }}>
           <img src="/images/11.png" alt="What are you creating? extension popup" style={{ maxHeight: '28vh', width: 'auto', objectFit: 'contain', borderRadius: '10px', boxShadow: '0 4px 20px rgba(0,0,0,0.12)' }} onError={(e) => { e.target.style.display = 'none'; e.target.nextSibling.style.display = 'flex'; }} />
@@ -417,7 +416,7 @@ function SlideFrictionContentType() {
 
         <div className="pres-card" style={{ padding: '32px' }}>
           <h3 className="pres-card-title" style={{ color: 'var(--pres-red)' }}>The Problem</h3>
-          <p className="pres-card-body" style={{ marginTop: '16px' }}>Five options, zero context. The user picks one without knowing what they'll get. A training guide, a demo video, and an interactive tour look completely different. When the result doesn't match what they imagined, the aha moment turns into a miss and they leave.</p>
+          <p className="pres-card-body" style={{ marginTop: '16px' }}><strong>Five options, zero context.</strong> Pick the wrong one and the output looks nothing like you expected. <strong>The aha moment turns into a miss.</strong></p>
         </div>
       </div>
     </div>
@@ -428,12 +427,12 @@ function Slide7Friction4() {
   return <FrictionLayout
     num="9"
     title="Capture is a black box"
-    experience="I start clicking through my workflow. The extension shows a step counter, but I have no idea if my actions are actually being captured."
+    experience={<>I click through my flow. The bar shows a counter but I have <strong>no idea if anything is actually recording</strong>.</>}
     description={[
-      "The extension shows nothing but a step counter. I have no idea if my clicks are being recorded correctly. One missed step means starting over.",
-      "Empty clicks count as steps. If I click somewhere that does nothing, or double-click by mistake, it's recorded as a real step, quietly polluting my Guidde with junk I won't catch until later.",
+      <>Nothing but a step counter. <strong>No way to know if clicks are registering.</strong> One miss means <strong>start over</strong>.</>,
+      <><strong>Empty clicks and double-clicks count as real steps.</strong> I won't know until I see the final output.</>,
     ]}
-    recommendation="Keep the recording bar visible at all times. Show a live step count next to the last captured action. Let users tap to expand and review all captured steps. Immediate confirmation with no screen clutter."
+    recommendation="Show a live label next to each captured step. Let users expand the bar to review and remove bad steps on the spot."
     principle="Give instant feedback"
     imagePath="/images/13.png"
     psychLevel={25}
@@ -445,7 +444,7 @@ function SlideCaptureResult() {
   return <OnboardingSlide
     num="10"
     title="The 'Aha!' Moment"
-    description="After capturing everything, it redirects me to the Guidde it automatically made. The result looks amazing right out of the box."
+    description={<>It redirects me to the Guidde it <strong>just built</strong>. The result looks <strong>amazing</strong>.</>}
     imagePath="/images/14.png"
     psychLevel={75}
     psychChange={+50}
@@ -456,7 +455,7 @@ function SlideEditNeeded() {
   return <OnboardingSlide
     num="11"
     title="Wait, this isn't quite right"
-    description="The auto-generated Guidde looks impressive. But looking closer, some captions are off, a step is missing, and the tone isn't right for my audience. I need to edit this before I can share it."
+    description={<>Looks good at first, but <strong>some captions are wrong</strong>, <strong>a step is missing</strong>, and the <strong>tone is off</strong>. I need to <strong>edit before I share</strong>.</>}
     imagePath="/images/14.png"
     psychLevel={65}
     psychChange={-10}
@@ -467,9 +466,9 @@ function SlideEditorOverwhelm() {
   return <FrictionLayout
     num="12"
     title="The editor is overwhelming"
-    experience="I click Edit. The screen fills with panels, toolbars, and controls. I just wanted to fix one caption."
-    description="I want to make a simple edit, so I click Edit. It opens a full editor with way too many options at once."
-    recommendation="Hide advanced controls by default. Show users a short list of simple actions first and let them go deeper only when they need to."
+    experience={<>I click Edit. The screen fills with <strong>panels, toolbars, and controls</strong>. I just wanted to <strong>fix one caption</strong>.</>}
+    description={<>I want to make a <strong>simple edit</strong>. I click Edit. A <strong>full editor with way too many options</strong> opens at once.</>}
+    recommendation="Hide advanced controls by default. Show a short list of simple actions first. Let them go deeper only if they need to."
     principle="Reduce cognitive load"
     imagePath="/images/editor.png"
     psychLevel={25}
@@ -509,7 +508,7 @@ function SlidePsychGraph() {
   return (
     <div className="pres-content-wrap centered" style={{ gap: '12px' }}>
       <h2 className="pres-title">User Psych Journey</h2>
-      <h3 className="pres-subtitle">How the user feels across the 12 steps of their first creation</h3>
+      <h3 className="pres-subtitle">User emotion across 12 steps of the first creation</h3>
 
       <svg viewBox={`0 0 ${W} ${H}`} style={{ width: '100%', marginTop: '8px' }}>
         {/* Drop-off zone shading */}
@@ -558,28 +557,31 @@ function Slide10Problem() {
   const points = [
     {
       step: 8,
+      emoji: '🙈',
       color: '#F97316',
       label: 'Blind Choice',
-      title: 'The user picks a format they have never seen',
-      body: 'The extension asks "What are you creating?" before a single click is recorded, with no preview of what each option produces. The user picks blind. When the result doesn\'t match what they imagined, the aha moment becomes a miss.',
+      title: 'User picks a format they\'ve never seen',
+      body: <>Five format options, <strong>no preview of what any of them produce</strong>. User picks blind. Wrong output, <strong>missed aha moment</strong>.</>,
       persona: '✨ Hits Marketing hardest. An interactive demo and a help article look nothing alike. Wrong choice, wrong output.',
       personaColor: '#D97706',
     },
     {
       step: 9,
+      emoji: '🎥',
       color: 'var(--pres-red)',
       label: 'Blind Capture',
       title: 'No feedback during recording, errors stay hidden',
-      body: 'The capture bar shows only a step counter. Empty clicks and accidental double-clicks are recorded as real steps with no warning. The only fix is to scrap everything and start over.',
+      body: <>Only a step counter. <strong>Empty clicks and double-clicks</strong> get recorded as real steps with no warning. The only fix is to <strong>start over</strong>.</>,
       persona: '🎯 Hits Sales hardest. One junk step ruins a polished client demo, and re-recording isn\'t an option when you have 30 clients waiting.',
       personaColor: '#8B5CF6',
     },
     {
       step: 12,
+      emoji: '😵‍💫',
       color: 'var(--pres-purple)',
       label: 'Editor Overwhelm',
-      title: 'The editing interface is built for power users',
-      body: 'Opening the editor after the aha moment dumps every advanced control on screen at once. A first-time user trying to fix one caption faces a wall of options with no guided path. Most don\'t make it through.',
+      title: 'The editor is built for power users',
+      body: <><strong>Every control lands on screen at once.</strong> A new user trying to fix one caption faces a <strong>wall with no path forward</strong>. Most quit.</>,
       persona: '💬 Hits Support hardest. They just want to fix one caption and publish. The wall of controls turns a 2-minute task into a 20-minute project.',
       personaColor: '#4B7BF5',
     },
@@ -588,24 +590,15 @@ function Slide10Problem() {
   return (
     <div className="pres-content-wrap">
       <h2 className="pres-title">Three Drop-off Points</h2>
-      <h3 className="pres-subtitle">Where users leave and why</h3>
 
       <div className="pres-cards-col" style={{ marginTop: '32px', gap: '16px' }}>
-        {points.map(({ step, color, label, title, body, persona, personaColor }) => (
+        {points.map(({ step, emoji, color, label, title, body, persona, personaColor }) => (
           <div key={step} className="pres-card" style={{ flexDirection: 'row', alignItems: 'flex-start', gap: '24px', padding: '28px 32px' }}>
             <div className="pres-card-accent-left" style={{ background: color }} />
-            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px', flexShrink: 0, width: '48px' }}>
-              <div style={{ width: '36px', height: '36px', borderRadius: '50%', background: color, display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 800, fontSize: '14px', color: 'white' }}>{step}</div>
-              <span style={{ fontSize: '10px', fontWeight: 700, color, textTransform: 'uppercase', letterSpacing: '0.06em', textAlign: 'center', lineHeight: 1.2 }}>{label}</span>
-            </div>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, width: '48px', fontSize: '36px', lineHeight: 1 }}>{emoji}</div>
             <div style={{ flex: 1 }}>
               <h3 className="pres-card-title" style={{ fontSize: '19px' }}>{title}</h3>
               <p className="pres-card-body" style={{ marginTop: '8px' }}>{body}</p>
-              {persona && (
-                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginTop: '10px', padding: '7px 12px', borderRadius: '8px', background: `color-mix(in srgb, ${personaColor} 8%, white)`, border: `1px solid color-mix(in srgb, ${personaColor} 20%, transparent)` }}>
-                  <span style={{ fontSize: '12px', color: personaColor, fontWeight: 600, lineHeight: 1.4 }}>{persona}</span>
-                </div>
-              )}
             </div>
           </div>
         ))}
@@ -618,12 +611,10 @@ function SlideActivation() {
   return (
     <div className="pres-content-wrap">
       <h2 className="pres-title">Defining "Activation"</h2>
-      <h3 className="pres-subtitle">What is the right metric for this context?</h3>
 
       <div className="pres-cards-col" style={{ marginTop: '40px' }}>
         <div className="pres-card" style={{ border: '2px solid var(--pres-blue)', background: 'rgba(75, 123, 245, 0.05)' }}>
-          <div className="pres-tag blue" style={{ marginBottom: '12px' }}>THE METRIC</div>
-          <h3 className="pres-card-title" style={{ fontSize: '32px' }}>"Time to First Shared Guidde"</h3>
+          <h3 className="pres-card-title" style={{ fontSize: '32px', marginBottom: '0' }}>"Time to First Shared Guidde"</h3>
           <p className="pres-card-body" style={{ fontSize: '20px', marginTop: '16px' }}>
             A user is only activated when they have <strong>recorded, edited, and shared</strong> their first Guidde.
           </p>
@@ -636,25 +627,25 @@ function SlideActivation() {
 function SlideAssumptions() {
   return (
     <div className="pres-content-wrap">
-      <h2 className="pres-title">Making Assumptions Explicit</h2>
+      <h2 className="pres-title">My Assumptions</h2>
 
       <div className="pres-cards-col" style={{ marginTop: '40px' }}>
         <div className="pres-card">
           <div className="pres-card-accent-left" style={{ background: 'var(--pres-blue)' }} />
           <h3 className="pres-card-title">1. Most users only need simple edits</h3>
-          <p className="pres-card-body">First-time users want to fix a caption, trim a step, or adjust a title. Not build composite layers or add animations. The editor should reflect that reality.</p>
+          <p className="pres-card-body">New users want to <strong>fix a caption or trim a step</strong>. Not build animations. <strong>The editor should match that.</strong></p>
         </div>
 
         <div className="pres-card">
           <div className="pres-card-accent-left" style={{ background: 'var(--pres-purple)' }} />
           <h3 className="pres-card-title">2. Hitting a wall after the aha moment is fatal</h3>
-          <p className="pres-card-body">Hitting a wall right after the peak moment causes more drop-off than anything earlier in the flow. The timing makes it uniquely costly.</p>
+          <p className="pres-card-body">Friction <strong>right after the peak moment</strong> drives <strong>more drop-off than anything before it</strong>.</p>
         </div>
 
         <div className="pres-card">
           <div className="pres-card-accent-left" style={{ background: 'var(--pres-amber)' }} />
-          <h3 className="pres-card-title">3. Good defaults beat full control</h3>
-          <p className="pres-card-body">For new users, a focused editor with smart defaults works better than an open editor with full creative freedom. Fewer choices means faster completion.</p>
+          <h3 className="pres-card-title">3. One template doesn't fit all three personas</h3>
+          <p className="pres-card-body">A help article, a sales demo, and an interactive tour look <strong>completely different</strong>. The current single template <strong>can't serve all three</strong> well.</p>
         </div>
       </div>
     </div>
@@ -670,11 +661,11 @@ function Slide11Personas() {
       colorDim: 'rgba(75,123,245,0.08)',
       tagClass: 'blue',
       tagLabel: 'Help Articles',
-      goal: 'Turn repeat tickets into self-serve guides — fast.',
+      goal: <>Turn <strong>repeat tickets</strong> into <strong>self-serve guides</strong>, fast.</>,
       pains: [
-        'Writing step-by-step instructions is slow',
-        'Text alone doesn\'t explain UI flows well',
-        'Guides go stale with no easy way to update',
+        <>Recording to <strong>publishable guide takes too many steps</strong></>,
+        <>Picking the <strong>wrong format means starting over</strong></>,
+        <>Simple edits are <strong>buried inside a complex editor</strong></>,
       ],
     },
     {
@@ -684,11 +675,11 @@ function Slide11Personas() {
       colorDim: 'rgba(139,92,246,0.08)',
       tagClass: 'purple',
       tagLabel: 'Demo Videos',
-      goal: 'Send every prospect a polished walkthrough without spending hours on it.',
+      goal: <>Send every prospect a <strong>polished walkthrough</strong> without <strong>spending hours</strong> on it.</>,
       pains: [
-        'Live demos fall apart when anything goes wrong',
-        'Generic recordings feel impersonal to prospects',
-        'High-quality video needs skills the team lacks',
+        <>Junk clicks <strong>silently end up in the final output</strong></>,
+        <>No way to <strong>preview how the demo will look</strong> before recording</>,
+        <>Polishing a demo <strong>requires editing skills they don't have</strong></>,
       ],
     },
     {
@@ -698,11 +689,11 @@ function Slide11Personas() {
       colorDim: 'rgba(245,158,11,0.08)',
       tagClass: 'amber',
       tagLabel: 'Interactive Demos',
-      goal: 'Let visitors experience the product before signing up — no engineering needed.',
+      goal: <>Let visitors <strong>experience the product before signing up</strong>, <strong>no engineering needed</strong>.</>,
       pains: [
-        'Screenshots don\'t convey what the product does',
-        'Interactive demos always need developer time',
-        'Outdated content stays live after UI changes',
+        <>Building an <strong>interactive demo needs a developer</strong></>,
+        <>Choosing the <strong>wrong format produces the wrong output</strong></>,
+        <>Re-recording after a <strong>UI change is a full project</strong></>,
       ],
     },
   ];
@@ -711,13 +702,13 @@ function Slide11Personas() {
     <div className="pres-content-wrap" style={{ gap: '24px' }}>
       <h2 className="pres-title">Who Are We Building For?</h2>
 
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '16px', width: '100%' }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '20px', width: '100%' }}>
         {personas.map(({ icon, name, color, colorDim, tagClass, tagLabel, goal, pains }) => (
           <div
             key={name}
             style={{
               background: '#fff',
-              borderRadius: '18px',
+              borderRadius: '20px',
               border: '1.5px solid var(--g-border)',
               boxShadow: '0 2px 16px rgba(26,31,54,0.07)',
               overflow: 'hidden',
@@ -727,47 +718,47 @@ function Slide11Personas() {
           >
             {/* Card header */}
             <div style={{
-              borderTop: `4px solid ${color}`,
+              borderTop: `5px solid ${color}`,
               background: colorDim,
-              padding: '20px 22px 16px',
-              display: 'flex', flexDirection: 'column', gap: '8px',
+              padding: '26px 28px 20px',
+              display: 'flex', flexDirection: 'column', gap: '10px',
             }}>
-              <span style={{ fontSize: '28px', lineHeight: 1 }}>{icon}</span>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '10px', flexWrap: 'wrap' }}>
+              <span style={{ fontSize: '36px', lineHeight: 1 }}>{icon}</span>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '12px', flexWrap: 'wrap' }}>
                 <span style={{
                   fontFamily: "'Bricolage Grotesque', sans-serif",
-                  fontWeight: 700, fontSize: '18px',
+                  fontWeight: 700, fontSize: '24px',
                   color: 'var(--g-text)', lineHeight: 1,
                 }}>{name}</span>
-                <span className={`pres-tag ${tagClass}`} style={{ fontSize: '10px', padding: '3px 10px' }}>{tagLabel}</span>
+                <span className={`pres-tag ${tagClass}`} style={{ fontSize: '12px', padding: '4px 12px' }}>{tagLabel}</span>
               </div>
             </div>
 
             {/* Goal */}
-            <div style={{ padding: '16px 22px', borderBottom: '1px solid var(--g-border)' }}>
+            <div style={{ padding: '20px 28px', borderBottom: '1px solid var(--g-border)' }}>
               <p style={{
-                fontSize: '11px', fontWeight: 700, letterSpacing: '0.08em',
-                textTransform: 'uppercase', color: 'var(--g-muted)', margin: '0 0 6px',
+                fontSize: '12px', fontWeight: 700, letterSpacing: '0.08em',
+                textTransform: 'uppercase', color: 'var(--g-muted)', margin: '0 0 8px',
               }}>Goal</p>
               <p style={{
-                fontSize: '14px', lineHeight: 1.6,
+                fontSize: '17px', lineHeight: 1.6,
                 color: 'var(--g-text)', margin: 0, fontWeight: 500,
               }}>{goal}</p>
             </div>
 
             {/* Pain points */}
-            <div style={{ padding: '16px 22px', display: 'flex', flexDirection: 'column', gap: '10px' }}>
+            <div style={{ padding: '20px 28px', display: 'flex', flexDirection: 'column', gap: '14px' }}>
               <p style={{
-                fontSize: '11px', fontWeight: 700, letterSpacing: '0.08em',
+                fontSize: '12px', fontWeight: 700, letterSpacing: '0.08em',
                 textTransform: 'uppercase', color: 'var(--g-muted)', margin: 0,
               }}>Pain Points</p>
               {pains.map((pain, i) => (
-                <div key={i} style={{ display: 'flex', gap: '10px', alignItems: 'flex-start' }}>
+                <div key={i} style={{ display: 'flex', gap: '12px', alignItems: 'flex-start' }}>
                   <span style={{
                     color, fontWeight: 800, flexShrink: 0,
-                    fontSize: '13px', marginTop: '1px', lineHeight: 1.4,
+                    fontSize: '16px', marginTop: '1px', lineHeight: 1.4,
                   }}>✕</span>
-                  <p style={{ fontSize: '13px', lineHeight: 1.55, color: 'var(--g-muted)', margin: 0 }}>{pain}</p>
+                  <p style={{ fontSize: '16px', lineHeight: 1.55, color: 'var(--g-muted)', margin: 0 }}>{pain}</p>
                 </div>
               ))}
             </div>
@@ -919,7 +910,7 @@ function SlideSolutionFeatures() {
       num: '01',
       icon: '🎯',
       title: 'Guidde Type + Template Selection',
-      body: 'Before recording starts, the user picks their Guidde type and browses templates so they can see exactly what the output will look like. No more guessing.',
+      body: <>Before recording starts, the user <strong>picks their Guidde type</strong> and <strong>browses templates</strong> so they can <strong>see exactly what the output will look like</strong>. <strong>No more guessing.</strong></>,
       fixes: ['Choosing without context (step 8)', 'Mismatched output expectations'],
       color: 'var(--pres-blue)',
     },
@@ -927,7 +918,7 @@ function SlideSolutionFeatures() {
       num: '02',
       icon: '📋',
       title: 'Smart Capture Bar',
-      body: 'The extension bar shows a label for every step in real time. Duplicate clicks and empty interactions are flagged right away so the user can remove them without restarting.',
+      body: <>The extension bar shows a <strong>label for every step in real time</strong>. <strong>Duplicate clicks and empty interactions are flagged right away</strong> so the user can remove them <strong>without restarting</strong>.</>,
       fixes: ['No feedback during recording (step 9)', 'Empty and duplicate clicks polluting the Guidde'],
       color: 'var(--pres-purple)',
     },
@@ -935,7 +926,7 @@ function SlideSolutionFeatures() {
       num: '03',
       icon: '📄',
       title: 'Template-Driven Output',
-      body: 'The auto-generated Guidde is rendered inside the template the user picked before recording. What they see is what they chose, so there is no gap between expectation and delivery.',
+      body: <>The output opens <strong>inside the template they chose before recording</strong>. What they see is what they picked, <strong>no surprises</strong>.</>,
       fixes: ['Aha moment turning into a miss (step 10–11)'],
       color: 'var(--pres-green)',
     },
@@ -943,7 +934,7 @@ function SlideSolutionFeatures() {
       num: '04',
       icon: '💬',
       title: 'AI Editor with Contextual Suggestions',
-      body: 'The editor shows a short list of suggested actions tailored to the Guidde type: "clean up captions", "add a callout", "trim to 3 steps". The full toolbar stays hidden until the user asks for it.',
+      body: <>A <strong>few smart suggestions</strong> based on the Guidde type: "clean up captions", "add a callout", "trim to 3 steps". <strong>Full toolbar stays hidden until they ask for it.</strong></>,
       fixes: ['Editor overwhelm and blank canvas paralysis (step 12)'],
       color: 'var(--pres-amber)',
     },
@@ -953,7 +944,7 @@ function SlideSolutionFeatures() {
     <div className="pres-content-wrap" style={{ gap: '28px' }}>
       <div>
         <h2 className="pres-title">The Solution: 4 Features</h2>
-        <p className="pres-subtitle" style={{ marginTop: '12px' }}>Each feature traces back to a specific drop-off point found in the review</p>
+        <p className="pres-subtitle" style={{ marginTop: '12px' }}>Each feature fixes a specific drop-off found in the review</p>
       </div>
 
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }}>
@@ -997,7 +988,7 @@ function SlideTypeSelect() {
       <div>
         <h2 className="pres-title">Guidde Type + Template Selection</h2>
         <p className="pres-subtitle" style={{ marginTop: '8px' }}>
-          Before recording starts, users pick what they're building and see what the output will look like. No guessing, no surprises when the editor opens.
+          Users <strong>pick what they're building</strong> and <strong>preview the output</strong> before recording. <strong>No guessing.</strong>
         </p>
       </div>
 
@@ -1099,7 +1090,7 @@ function SlideTemplateOutput() {
       <div>
         <h2 className="pres-title">Template-Driven Output</h2>
         <p className="pres-subtitle" style={{ marginTop: '8px' }}>
-          The auto-generated Guidde opens inside the template the user chose before recording. The output matches what they picked, so the aha moment actually lands.
+          The output opens <strong>in the template they chose</strong>. What they see <strong>matches what they expected</strong>, so <strong>the aha moment actually lands</strong>.
         </p>
       </div>
 
@@ -1208,7 +1199,7 @@ function SlideCapturePersona() {
       <div>
         <h2 className="pres-title">Smart Capture Bar</h2>
         <p className="pres-subtitle" style={{ marginTop: '8px' }}>
-          The recording bar now shows what each step actually captured. Users can expand it to review steps, spot duplicate or empty clicks, and remove them on the spot.
+          The bar shows <strong>what each step captured</strong>. Users can expand it, spot <strong>duplicate or empty clicks</strong>, and <strong>remove them on the spot</strong>.
         </p>
       </div>
 
@@ -1348,7 +1339,7 @@ function SlideAIEditor() {
       <div style={{ textAlign: 'center' }}>
         <h2 className="pres-title" style={{ fontSize: 'clamp(36px, 4.5vw, 60px)' }}>The AI Chat Editor</h2>
         <p className="pres-subtitle" style={{ marginTop: '10px', fontSize: 'clamp(16px, 1.6vw, 20px)' }}>
-          Advanced controls are hidden by default. Users just describe what they want changed and the AI handles it, already knowing what kind of Guidde they're editing.
+          <strong>Advanced controls are hidden.</strong> Users <strong>type what they want changed</strong> and the AI does it, <strong>knowing the Guidde type</strong> already.
         </p>
       </div>
 
@@ -1548,63 +1539,59 @@ function SlideAIEditor() {
 
 function SlideValidation() {
   const assumptions = [
-    { claim: 'Editor is the highest drop-off step', method: 'Funnel analysis', check: 'Measure drop rate at 3 steps: Recording start, Review output, Editor. If editor drop is the highest, AI Editor stays P0. If another step leads, reprioritize accordingly.' },
-    { claim: 'Templates cover real use cases per type', method: 'Event data', check: 'Query content type selection distribution from existing sessions. Identify the top use cases per type and confirm templates map to them.' },
-    { claim: 'Capture errors go unnoticed', method: 'Support tickets', check: 'Filter tickets tagged "wrong steps" or "duplicate clicks". Low volume weakens the Smart Capture priority.' },
+    { claim: 'Editor is the highest drop-off step', method: 'Funnel analysis', check: 'Compare drop rates at Recording start, Review output, and Editor. If editor isn\'t the worst, reprioritize.' },
+    { claim: 'Templates cover real use cases per type', method: 'Event data', check: 'Look at which content types users pick most. Make sure templates cover those use cases.' },
+    { claim: 'Capture errors go unnoticed', method: 'Support tickets', check: 'Look for tickets about wrong or duplicate steps. Low volume = lower priority.' },
   ];
 
   const features = [
-    { name: 'Template-Driven Output', metric: 'Helpful / Not Helpful rating on first Guidde', success: '75%+ rate Helpful', color: '#DC2626' },
-    { name: 'Type + Template Selection', metric: 'Template selection rate + drop-off at selection step', success: '>70% select, no new drop-off', color: '#D97706' },
-    { name: 'Smart Capture Bar', metric: '% of sessions where a flagged step is removed before finishing', success: '>30% of flagged sessions fixed', color: '#6B7280' },
-    { name: 'AI Editor', metric: 'Editor completion rate (open editor → click Share)', success: '+25% vs. baseline', color: '#6B7280' },
+    { name: 'Template-Driven Output', metric: 'First Guidde Rating — users who mark it Helpful', success: '80% Helpful', color: '#DC2626' },
+    { name: 'Type + Template Selection', metric: 'Template Selection Rate — new users who pick a template before recording', success: '70%', color: '#D97706' },
+    { name: 'Smart Capture Bar', metric: 'Capture Bar Engagement — sessions where user expands the step dropdown', success: '40%', color: '#059669' },
+    { name: 'AI Editor', metric: 'Editor Completion Rate — open editor then click Share', success: '+25%', color: '#8B5CF6' },
   ];
 
   return (
-    <div className="pres-content-wrap" style={{ gap: '22px' }}>
+    <div className="pres-content-wrap" style={{ gap: '16px' }}>
       <div>
         <h2 className="pres-title">Validation Plan</h2>
-        <p className="pres-subtitle" style={{ marginTop: '8px' }}>Two stages: confirm assumptions before writing code, then measure each feature after it ships.</p>
+        <p className="pres-subtitle" style={{ marginTop: '6px' }}>Two stages: <strong>confirm assumptions before building</strong>, then <strong>measure each feature after it ships</strong>.</p>
       </div>
 
-      {/* Stage 1 */}
-      <div className="pres-card" style={{ padding: '0', overflow: 'hidden' }}>
-        <div style={{ padding: '12px 20px', borderBottom: '1px solid var(--g-border)', background: 'rgba(75,123,245,0.06)', display: 'flex', alignItems: 'center', gap: '12px' }}>
-          <div className="pres-tag blue">Stage 1</div>
-          <span style={{ fontWeight: 700, fontSize: '16px' }}>Confirm assumptions before building</span>
-        </div>
-        <div style={{ display: 'grid', gridTemplateColumns: '160px 1fr 1.4fr', padding: '9px 20px', background: '#F9FAFB', borderBottom: '1px solid var(--g-border)', gap: '16px' }}>
-          {['Method', 'Assumption', 'What to check'].map(h => (
-            <div key={h} style={{ fontSize: '11px', fontWeight: 700, color: 'var(--g-muted)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>{h}</div>
-          ))}
-        </div>
-        {assumptions.map(({ claim, method, check }, i) => (
-          <div key={claim} style={{ display: 'grid', gridTemplateColumns: '160px 1fr 1.4fr', padding: '13px 20px', borderBottom: i < assumptions.length - 1 ? '1px solid var(--g-border)' : 'none', gap: '16px', alignItems: 'start' }}>
-            <div style={{ fontSize: '12px', fontWeight: 700, color: 'var(--pres-blue)', background: 'rgba(75,123,245,0.08)', padding: '4px 10px', borderRadius: '6px', textAlign: 'center' }}>{method}</div>
-            <div style={{ fontSize: '14px', fontWeight: 600, color: '#111827', lineHeight: 1.4 }}>{claim}</div>
-            <div style={{ fontSize: '13px', color: 'var(--g-muted)', lineHeight: 1.5 }}>{check}</div>
-          </div>
-        ))}
-      </div>
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px', alignItems: 'stretch' }}>
 
-      {/* Stage 2 */}
-      <div className="pres-card" style={{ padding: '0', overflow: 'hidden' }}>
-        <div style={{ padding: '12px 20px', borderBottom: '1px solid var(--g-border)', background: 'rgba(139,92,246,0.06)', display: 'flex', alignItems: 'center', gap: '12px' }}>
-          <div className="pres-tag purple">Stage 2</div>
-          <span style={{ fontWeight: 700, fontSize: '16px' }}>Measure each feature after it ships</span>
-        </div>
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1.6fr 1fr', padding: '9px 20px', background: '#F9FAFB', borderBottom: '1px solid var(--g-border)', gap: '16px' }}>
-          {['Feature', 'Metric', 'Success if...'].map(h => (
-            <div key={h} style={{ fontSize: '11px', fontWeight: 700, color: 'var(--g-muted)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>{h}</div>
+        {/* Stage 1 */}
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+          <div style={{ marginBottom: '2px' }}>
+            <span style={{ fontSize: '11px', fontWeight: 800, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--g-brand)', borderLeft: '3px solid var(--g-brand)', paddingLeft: '8px' }}>Before building</span>
+          </div>
+          {assumptions.map(({ claim, method, check }) => (
+            <div key={claim} style={{ flex: 1, background: 'white', border: '1.5px solid var(--g-border)', borderRadius: '12px', padding: '16px 18px', display: 'flex', flexDirection: 'column', gap: '8px', justifyContent: 'center' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
+                <span style={{ fontSize: '11px', fontWeight: 700, color: 'var(--g-brand)', background: 'rgba(75,123,245,0.08)', padding: '3px 10px', borderRadius: '99px', whiteSpace: 'nowrap' }}>{method}</span>
+                <span style={{ fontSize: '15px', fontWeight: 700, color: '#111827', lineHeight: 1.3 }}>{claim}</span>
+              </div>
+              <p style={{ fontSize: '13px', color: 'var(--g-muted)', margin: 0, lineHeight: 1.55 }}>{check}</p>
+            </div>
           ))}
         </div>
-        {features.map(({ name, metric, success, color }, i) => (
-          <div key={name} style={{ display: 'grid', gridTemplateColumns: '1fr 1.6fr 1fr', padding: '13px 20px', borderBottom: i < features.length - 1 ? '1px solid var(--g-border)' : 'none', gap: '16px', alignItems: 'start' }}>
-            <div style={{ fontSize: '14px', fontWeight: 700, color, lineHeight: 1.3 }}>{name}</div>
-            <div style={{ fontSize: '13px', color: '#374151', lineHeight: 1.5 }}>{metric}</div>
-            <div style={{ fontSize: '13px', color: '#059669', fontWeight: 600, lineHeight: 1.4 }}>{success}</div>
+
+        {/* Stage 2 */}
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+          <div style={{ marginBottom: '2px' }}>
+            <span style={{ fontSize: '11px', fontWeight: 800, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--pres-purple)', borderLeft: '3px solid var(--pres-purple)', paddingLeft: '8px' }}>After shipping</span>
           </div>
-        ))}
+          {features.map(({ name, metric, success, color }) => (
+            <div key={name} style={{ flex: 1, background: 'white', border: '1.5px solid var(--g-border)', borderRadius: '12px', padding: '16px 18px', display: 'flex', alignItems: 'center', gap: '12px', justifyContent: 'space-between' }}>
+              <div style={{ flex: 1 }}>
+                <div style={{ fontSize: '15px', fontWeight: 700, color, marginBottom: '4px', lineHeight: 1.2 }}>{name}</div>
+                <div style={{ fontSize: '13px', color: 'var(--g-muted)', lineHeight: 1.4 }}>{metric}</div>
+              </div>
+              <div style={{ fontSize: '16px', fontWeight: 800, color: '#059669', whiteSpace: 'nowrap', textAlign: 'right', flexShrink: 0 }}>{success}</div>
+            </div>
+          ))}
+        </div>
+
       </div>
     </div>
   );
@@ -1640,7 +1627,7 @@ function Slide15Metrics() {
         <div className="pres-card" style={{ border: '2px solid var(--pres-blue)', background: 'rgba(75, 123, 245, 0.04)', gridColumn: '1 / -1', padding: '0', overflow: 'hidden' }}>
           <div style={{ display: 'grid', gridTemplateColumns: '1fr auto', alignItems: 'center', padding: '18px 24px', gap: '24px' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
-              <div className="pres-tag blue">NORTH STAR</div>
+              <span style={{ fontSize: '10px', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--g-brand)', borderLeft: '3px solid var(--g-brand)', paddingLeft: '8px' }}>North Star</span>
               <div>
                 <div style={{ fontWeight: 700, fontSize: '19px' }}>7-Day Activation Rate</div>
                 <div style={{ fontSize: '14px', color: 'var(--pres-text-muted)', marginTop: '2px' }}>Users who create and share their first Guidde within 7 days of install</div>
@@ -1653,7 +1640,7 @@ function Slide15Metrics() {
         {/* Funnel Metrics */}
         <div className="pres-card" style={{ padding: '0', overflow: 'hidden' }}>
           <div style={{ padding: '12px 20px', borderBottom: '1px solid var(--g-border)', background: 'rgba(0,0,0,0.02)' }}>
-            <div className="pres-tag purple">FUNNEL</div>
+            <span style={{ fontSize: '10px', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--pres-purple)', borderLeft: '3px solid var(--pres-purple)', paddingLeft: '8px' }}>Funnel</span>
           </div>
           <MetricRow
             label="Template Selection Rate"
@@ -1678,7 +1665,7 @@ function Slide15Metrics() {
         {/* Retention + Business */}
         <div className="pres-card" style={{ padding: '0', overflow: 'hidden' }}>
           <div style={{ padding: '12px 20px', borderBottom: '1px solid var(--g-border)', background: 'rgba(0,0,0,0.02)' }}>
-            <div className="pres-tag amber">RETENTION + BUSINESS</div>
+            <span style={{ fontSize: '10px', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#b45309', borderLeft: '3px solid var(--pres-amber)', paddingLeft: '8px' }}>Retention + Business</span>
           </div>
           <MetricRow
             label="Day-30 Return Rate"
@@ -1797,7 +1784,7 @@ function SlidePrioritization() {
       effort: 'High',
       impact: 'High',
       deps: 'None',
-      why: 'Directly addresses the confirmed main drop-off. Can ship as a simplified editor before templates exist and get enhanced once they are live.',
+      why: <>Fixes the <strong>biggest drop-off</strong>. Ships as a <strong>simple editor</strong> first, gets better once templates are live.</>,
       effortColor: '#DC2626',
       impactColor: '#059669',
       priorityColor: '#DC2626',
@@ -1809,7 +1796,7 @@ function SlidePrioritization() {
       effort: 'High',
       impact: 'High',
       deps: 'None',
-      why: 'Reduces the amount of editing needed in the first place. Also unlocks persona-aware AI rewrites and the template selection screen.',
+      why: <>Less editing needed when output is <strong>already shaped right</strong>. Also unlocks <strong>AI rewrites</strong> and the selection screen.</>,
       effortColor: '#DC2626',
       impactColor: '#059669',
       priorityColor: '#D97706',
@@ -1821,7 +1808,7 @@ function SlidePrioritization() {
       effort: 'Medium',
       impact: 'High',
       deps: 'Template-Driven Output',
-      why: 'The selection screen only makes sense once templates exist. Users need to see what they are choosing before committing to one.',
+      why: <>Needs templates first. <strong>Users have to see what they're choosing</strong> before they can pick.</>,
       effortColor: '#D97706',
       impactColor: '#059669',
       priorityColor: '#6B7280',
@@ -1833,7 +1820,7 @@ function SlidePrioritization() {
       effort: 'Medium',
       impact: 'Medium',
       deps: 'None',
-      why: 'Independent of the template system. Addresses a secondary friction point. Ships last since the editor drop-off is the bigger problem.',
+      why: <>No dependencies. Ships last since the <strong>editor drop-off is the bigger problem</strong>.</>,
       effortColor: '#D97706',
       impactColor: '#D97706',
       priorityColor: '#6B7280',
@@ -1844,7 +1831,7 @@ function SlidePrioritization() {
     <div className="pres-content-wrap" style={{ gap: '28px' }}>
       <div>
         <h2 className="pres-title">Prioritization and Dependencies</h2>
-        <p className="pres-subtitle" style={{ marginTop: '8px' }}>AI Editor ships first because it directly fixes the confirmed main drop-off. Templates come second, unlocking the selection screen and enhanced AI rewrites.</p>
+        <p className="pres-subtitle" style={{ marginTop: '8px' }}><strong>AI Editor ships first</strong>, it fixes the biggest drop-off. <strong>Templates come next</strong>, which unlocks the selection screen and <strong>better AI rewrites</strong>.</p>
       </div>
 
       {/* Feature table */}
@@ -1878,7 +1865,6 @@ function SlideTitlePrototype() {
   return (
     <div className="pres-section-title-wrap">
       <div className="pres-section-ghost-num">6</div>
-      <div className="pres-section-badge">Step 6</div>
       <h1 className="pres-section-title">Prototype</h1>
       <button
         onClick={() => navigate('/flow')}
@@ -1909,7 +1895,6 @@ function SectionTitle({ step, title }) {
   return (
     <div className="pres-section-title-wrap">
       <div className="pres-section-ghost-num">{step}</div>
-      <div className="pres-section-badge">Step {step}</div>
       <h1 className="pres-section-title">{title}</h1>
     </div>
   );
