@@ -867,13 +867,13 @@ function Slide14Features() {
     {
       icon: '🎯', title: 'Extend the Existing Capture Question',
       body: 'Guidde already asks "what do you want to capture?" before recording. Adding one output-type question to that same screen sets the context for everything that follows. No new screen, no extra steps.',
-      friction: 'Removes: Editor overwhelm — output is decided before recording, not after',
+      friction: 'Removes: Editor overwhelm. Output is decided before recording, not after.',
       accentColor: 'var(--pres-blue)',
     },
     {
       icon: '💬', title: 'AI Chat Editor',
       body: 'The advanced toolbar is hidden by default. Users type what they want changed and the AI does it. Because it already knows the content type, "make this cleaner" means something different for a help article than it does for a client demo. Changes apply instantly, with undo always available.',
-      friction: 'Removes: Blank canvas paralysis — no decisions, just intent → result',
+      friction: 'Removes: Blank canvas paralysis. No decisions, just intent → result.',
       accentColor: 'var(--pres-purple)',
     },
     {
@@ -885,7 +885,7 @@ function Slide14Features() {
     {
       icon: '📋', title: 'Live Capture Feed',
       body: "During recording, a small overlay shows each action as it's captured (\"Clicked Save\", \"Scrolled down\"). Users know immediately if something wasn't recorded and can re-do it on the spot.",
-      friction: 'Removes: Blind capture anxiety — "did it actually work?"',
+      friction: 'Removes: Blind capture anxiety. "Did it actually work?"',
       accentColor: 'var(--pres-amber)',
     },
   ];
@@ -1554,14 +1554,14 @@ function SlideValidation() {
   const assumptions = [
     { claim: 'Editor is the highest drop-off step', method: 'Funnel analysis', check: 'Compare drop rates at Recording start, Review output, and Editor. If editor isn\'t the worst, reprioritize.' },
     { claim: 'Templates cover real use cases per type', method: 'Event data', check: 'Look at which content types users pick most. Make sure templates cover those use cases.' },
-    { claim: 'Capture errors go unnoticed', method: 'Support tickets', check: 'Look for tickets about wrong or duplicate steps. Low volume = lower priority.' },
+    { claim: '% of users delete steps captured in the editor', method: 'Product analytics', check: 'Track how often users delete captured steps in the editor. High deletion rate signals capture quality issues.' },
   ];
 
   const features = [
-    { name: 'Template-Driven Output', metric: 'First Guidde Rating — users who mark it Helpful', success: '80% Helpful', color: '#DC2626' },
-    { name: 'Type + Template Selection', metric: 'Template Selection Rate — new users who pick a template before recording', success: '70%', color: '#D97706' },
-    { name: 'Smart Capture Bar', metric: 'Capture Bar Engagement — sessions where user expands the step dropdown', success: '40%', color: '#059669' },
-    { name: 'AI Editor', metric: 'Editor Completion Rate — open editor then click Share', success: '+25%', color: '#8B5CF6' },
+    { name: 'Template-Driven Output', metric: 'First Guidde Rating: users who mark it Helpful', success: '80% Helpful', color: '#DC2626' },
+    { name: 'Type + Template Selection', metric: 'Template Selection Rate: new users who pick a template before recording', success: '70%', color: '#D97706' },
+    { name: 'Smart Capture Bar', metric: 'Capture Bar Engagement: sessions where user expands the step dropdown', success: '40%', color: '#059669' },
+    { name: 'AI Editor', metric: '% of users that edit using AI and then share', success: '30%', color: '#8B5CF6' },
   ];
 
   return (
